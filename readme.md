@@ -7,3 +7,8 @@
 ## Bug na migrate
 	Schema::defaultStringLength(191);
 	https://github.com/laravel/framework/issues/17508
+
+
+
+## End-Point
+	http://localhost:8000/api/v1/products
