@@ -12,3 +12,5 @@
 
 ## End-Point
 	http://localhost:8000/api/v1/products
+
+## crud finalizado
