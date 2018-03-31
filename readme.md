@@ -12,3 +12,6 @@
 
 ## End-Point
 	http://localhost:8000/api/v1/products
+
+
+## Finalizado o crud básico de API's c/ laravel
