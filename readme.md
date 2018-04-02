@@ -13,4 +13,8 @@
 ## End-Point
 	http://localhost:8000/api/v1/products
 
+## bug 
+	No application encryption key has been specified. New Laravel app
+	https://stackoverflow.com/questions/44839648/no-application-encryption-key-has-been-specified-new-laravel-app
+
 ## crud finalizado
