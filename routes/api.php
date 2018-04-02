@@ -18,9 +18,28 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function (){
-	Route::get('/products', 'ProductController@index');
-	Route::post('/products', 'ProductController@store');
-	Route::put('/products/{product}', 'ProductController@update');
-	Route::get('/products/{product}', 'ProductController@show');
-	Route::delete('/products/{product}', 'ProductController@destroy');
+
+
+	//////////////////////////////////////
+	//  | Exibindo todas as rotas
+	//////////////////////////////////////
+	//Route::get('/products', 'ProductController@index');
+	//Route::post('/products', 'ProductController@store');
+	//Route::put('/products/{product}', 'ProductController@update');
+	//Route::get('/products/{product}', 'ProductController@show');
+	//Route::delete('/products/{product}', 'ProductController@destroy');
+	
+
+	//////////////////////////////////////
+	//  | Simplificando a todas as Rotas
+	//  | com apenas uma linha.
+	//////////////////////////////////////
+	// Route::resources('products', 'ProductController');
+
+
+	Route::resources([
+		'products' => 'ProductController',
+		'users' => 'UsersController.php',
+	]);
+
 });
