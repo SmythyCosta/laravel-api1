@@ -14,4 +14,16 @@ class CategoryController extends Controller
         return response()->json(['status'=>200,'cat'=>$all]);
     }
 
+    public function categorySave(Request $request)
+    {
+
+        $category = new Category;
+        $category->name = $request->input('category');
+        $category->description = $request->input('description');
+        $category->status = $request->input('status');
+        $category->save();
+
+        return response()->json(['status'=>200,'mesg'=>'Category Save Success']);
+    }
+
 }

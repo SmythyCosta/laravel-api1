@@ -38,6 +38,8 @@ Route::prefix('v1')->group(function (){
 
     // ====================== Category ======================
     Route::get('get-all-category','CategoryController@getAllCategory');
+    Route::post('category-save','CategoryController@categorySave');
+
     // ====================== end Category ======================
 
 
