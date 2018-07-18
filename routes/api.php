@@ -36,8 +36,13 @@ Route::prefix('v1')->group(function (){
 	//////////////////////////////////////
 	// Route::resources('products', 'ProductController');
 
+    // ====================== Category ======================
+    Route::get('get-all-category','CategoryController@getAllCategory');
+    // ====================== end Category ======================
 
-	Route::resources([
+
+
+    Route::resources([
 		'products' => 'ProductController',
 		'users' => 'UsersController',
 	]);
