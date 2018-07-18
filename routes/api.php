@@ -41,6 +41,8 @@ Route::prefix('v1')->group(function (){
     Route::post('category-save','CategoryController@categorySave');
     Route::post('get-category','CategoryController@getCategory');
     Route::post('category-update','CategoryController@categoryUpdate');
+    Route::post('category-delete','CategoryController@categoryDelete');
+
 
 
     // ====================== end Category ======================
