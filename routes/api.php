@@ -39,7 +39,7 @@ Route::prefix('v1')->group(function (){
 
 	Route::resources([
 		'products' => 'ProductController',
-		'users' => 'UsersController.php',
+		'users' => 'UsersController',
 	]);
 
 });
