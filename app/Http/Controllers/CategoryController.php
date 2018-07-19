@@ -48,16 +48,12 @@ class CategoryController extends Controller
     public function categoryDelete(Request $request)
     {
         $id = $request->input('id');
-        $product = Product::select(DB::raw('count(id) as total'))->where('category_id',$id)->first();
-        if($product->total==0){
-            $cat= Category::find($id);
-            $cat->delete();
-            $status = 200;
-        }else{
-            $status = 400;
-        }
+        $cat= Category::find($id);
+        $cat->delete();
+        $status = 200;
+        
         return response()->json(['status'=>$status]);
     }
-    
+
 
 }
