@@ -36,6 +36,8 @@ Route::prefix('v1')->group(function (){
 	//////////////////////////////////////
 	// Route::resources('products', 'ProductController');
 
+
+
     // ====================== Category ======================
     Route::get('get-all-category','CategoryController@getAllCategory');
     Route::post('category-save','CategoryController@categorySave');
@@ -48,13 +50,7 @@ Route::prefix('v1')->group(function (){
     Route::post('get-subCategory','CategoryController@getSubCategory');
     Route::post('subCategory-update','CategoryController@subCategoryUpdate');
     Route::post('subCategory-delete','CategoryController@subCategoryDelete');
-
-
-
-
-
-
-
+    Route::get('get-subCategoryGridData','CategoryController@subCategoryGridData');
     // ====================== end Category ======================
 
 

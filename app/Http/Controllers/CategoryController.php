@@ -113,5 +113,16 @@ class CategoryController extends Controller
         return response()->json(['status'=>200,'mesg'=>'subCategory delete Success']);
     }
 
+    public function subCategoryGridData(Request $request)
+    {
+        $all =  DB::table('sub_category')
+            ->join('category', 'sub_category.category_id', '=', 'category.id')
+            ->select('sub_category.id','sub_category.name','sub_category.description','category.name as categoryName','sub_category.status')
+            ->orderBy('sub_category.id', 'desc')
+            ->get();
+
+        echo json_encode(array('status'=>200,'subCat'=>$all));
+    }
+
 
 }
