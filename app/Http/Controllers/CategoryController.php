@@ -61,6 +61,12 @@ class CategoryController extends Controller
         return response()->json(['status'=>$status]);
     }
 
+    public function getAllCategoryByGrid(Request $request)
+    {
+        $all = Category::select()->orderBy('id', 'desc')->get();
+        return response()->json(['status'=>200,'cat'=>$all]);
+    }
+
     // ======================= Sub_Category =======================
 
     public function getCatBySubCategory(Request $request)

@@ -44,6 +44,7 @@ Route::prefix('v1')->group(function (){
     Route::post('get-category','CategoryController@getCategory');
     Route::post('category-update','CategoryController@categoryUpdate');
     Route::post('category-delete','CategoryController@categoryDelete');
+    Route::get('get-all-category-by-grid','CategoryController@getAllCategoryByGrid');
 
     Route::post('get-cat-by-subCategory','CategoryController@getCatBySubCategory');
     Route::post('subCategory-save','CategoryController@subCategorySave');
