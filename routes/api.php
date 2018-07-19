@@ -47,6 +47,8 @@ Route::prefix('v1')->group(function (){
     Route::post('subCategory-save','CategoryController@subCategorySave');
     Route::post('get-subCategory','CategoryController@getSubCategory');
     Route::post('subCategory-update','CategoryController@subCategoryUpdate');
+    Route::post('subCategory-delete','CategoryController@subCategoryDelete');
+
 
 
 

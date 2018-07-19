@@ -100,7 +100,17 @@ class CategoryController extends Controller
         $subCategory->description = $request->input('description');
         $subCategory->status = $request->input('status');
         $subCategory->save();
+
         return response()->json(['status'=>200,'mesg'=>'Category Update Success']);
+    }
+
+    public function subCategoryDelete(Request $request)
+    {
+        $id = $request->input('id');
+        $cat= SubCategory::find($id);
+        $cat->delete();
+
+        return response()->json(['status'=>200,'mesg'=>'subCategory delete Success']);
     }
 
 
