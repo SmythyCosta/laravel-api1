@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use App\SubCategory;
 
 class CategoryController extends Controller
 {
@@ -55,6 +56,15 @@ class CategoryController extends Controller
         $status = 200;
         
         return response()->json(['status'=>$status]);
+    }
+
+    // ======================= Sub_Category =======================
+
+    public function getCatBySubCategory(Request $request)
+    {
+        $id = $request->input('id');
+        $all = SubCategory::where('status',1)->where('category_id',$id)->get();
+        return response()->json(['status'=>200,'subCat'=>$all]);
     }
 
 

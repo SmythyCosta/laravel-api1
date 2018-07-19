@@ -43,6 +43,8 @@ Route::prefix('v1')->group(function (){
     Route::post('category-update','CategoryController@categoryUpdate');
     Route::post('category-delete','CategoryController@categoryDelete');
 
+    Route::post('get-cat-by-subCategory','CategoryController@getCatBySubCategory');
+
 
 
     // ====================== end Category ======================
