@@ -91,4 +91,17 @@ class CategoryController extends Controller
     }
 
 
+    public function subCategoryUpdate(Request $request)
+    {
+        $id = $request->id;
+        $subCategory = SubCategory::find($id);
+        $subCategory->name = $request->input('subCategory');
+        $subCategory->category_id = $request->input('category');
+        $subCategory->description = $request->input('description');
+        $subCategory->status = $request->input('status');
+        $subCategory->save();
+        return response()->json(['status'=>200,'mesg'=>'Category Update Success']);
+    }
+
+
 }
