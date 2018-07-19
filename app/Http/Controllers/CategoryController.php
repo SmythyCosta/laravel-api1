@@ -67,5 +67,16 @@ class CategoryController extends Controller
         return response()->json(['status'=>200,'subCat'=>$all]);
     }
 
+    public function subCategorySave(Request $request)
+    {
+        $subCategory = new SubCategory;
+        $subCategory->name = $request->input('subCategory');
+        $subCategory->category_id = $request->input('category');
+        $subCategory->description = $request->input('description');
+        $subCategory->status = $request->input('status');
+        $subCategory->save();
+        return response()->json(['status'=>200,'mesg'=>'Sub Category Save Success']);
+    }
+
 
 }
