@@ -8,6 +8,8 @@ use App\Category;
 class CategoryController extends Controller
 {
 
+    // ======================= Category =======================
+
     public function getAllCategory(Request $request)
     {
         $all = Category::where('status',1)->get();
