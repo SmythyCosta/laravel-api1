@@ -28,4 +28,34 @@ class CategoryController extends Controller
         return response()->json(['status'=>200,'mesg'=>'Category Save Success']);
     }
 
+    public function getCategory(Request $request)
+    {
+        $id = $request->input('id');
+        $find = Category::where('id',$id)->first();           
+        return response()->json(['status'=>200,'cat'=>$find]); 
+    }
+
+    public function categoryUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $category = Category::find($id);
+        $category->name = $request->input('category');
+        $category->description = $request->input('description');
+        $category->status = $request->input('status');
+        $category->save();
+        
+        return response()->json(['status'=>200,'mesg'=>'Category Update Success']);
+    }
+
+    public function categoryDelete(Request $request)
+    {
+        $id = $request->input('id');
+        $cat= Category::find($id);
+        $cat->delete();
+        $status = 200;
+        
+        return response()->json(['status'=>$status]);
+    }
+
+
 }
