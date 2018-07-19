@@ -14,6 +14,7 @@ class CategoryController extends Controller
     public function getAllCategory(Request $request)
     {
         $all = Category::where('status',1)->get();
+
         return response()->json(['status'=>200,'cat'=>$all]);
     }
 
@@ -32,7 +33,8 @@ class CategoryController extends Controller
     public function getCategory(Request $request)
     {
         $id = $request->input('id');
-        $find = Category::where('id',$id)->first();           
+        $find = Category::where('id',$id)->first();
+
         return response()->json(['status'=>200,'cat'=>$find]); 
     }
 
@@ -64,6 +66,7 @@ class CategoryController extends Controller
     {
         $id = $request->input('id');
         $all = SubCategory::where('status',1)->where('category_id',$id)->get();
+
         return response()->json(['status'=>200,'subCat'=>$all]);
     }
 
@@ -75,7 +78,16 @@ class CategoryController extends Controller
         $subCategory->description = $request->input('description');
         $subCategory->status = $request->input('status');
         $subCategory->save();
+
         return response()->json(['status'=>200,'mesg'=>'Sub Category Save Success']);
+    }
+
+    public function getSubCategory(Request $request)
+    {
+        $id = $request->id;
+        $find = SubCategory::find($id);
+
+        return response()->json(['status'=>200,'subCat'=>$find]);
     }
 
 

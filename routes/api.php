@@ -45,6 +45,8 @@ Route::prefix('v1')->group(function (){
 
     Route::post('get-cat-by-subCategory','CategoryController@getCatBySubCategory');
     Route::post('subCategory-save','CategoryController@subCategorySave');
+    Route::post('get-subCategory','CategoryController@getSubCategory');
+
 
 
 
