@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+//Imports Laravel
 use Illuminate\Http\Request;
+
+//Imports Models
 use App\User;
 
 class UsersController extends Controller{

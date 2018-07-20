@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+//Imports Laravel
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\DamagedProduct;
+
+//Imports Models
+use App\DamagedProduct;
 
 
 class DamagedProductController extends Controller
