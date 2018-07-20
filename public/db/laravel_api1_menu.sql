@@ -16,27 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `password_resets`
+-- Table structure for table `menu`
 --
 
-DROP TABLE IF EXISTS `password_resets`;
+DROP TABLE IF EXISTS `menu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `password_resets` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `icon` varchar(100) NOT NULL,
+  `route` varchar(100) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `status` int(2) NOT NULL DEFAULT '1',
+  `priority` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `password_resets`
+-- Dumping data for table `menu`
 --
 
-LOCK TABLES `password_resets` WRITE;
-/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
-/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+INSERT INTO `menu` VALUES (1,'Dashboard','fa fa-home','dashboard',NULL,1,1),(2,'Customer','fa fa-user-o','customer',NULL,1,2),(3,'Product Manage','fa fa-product-hunt ','',1,1,5),(4,'Manage User','fa fa-users','user',NULL,1,4),(5,'Manage Purchases','fa fa-shopping-basket','',1,1,6),(7,'Manage Sales','fa fa-credit-card','',1,1,7),(8,'Report','fa fa-bug','',1,1,9),(9,'Setting','fa fa-cog','setting',NULL,1,10),(10,'supplier','fa fa-truck','supplier',NULL,1,3);
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-20 17:56:20
+-- Dump completed on 2018-07-20 17:56:17

@@ -16,27 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `password_resets`
+-- Table structure for table `submenu`
 --
 
-DROP TABLE IF EXISTS `password_resets`;
+DROP TABLE IF EXISTS `submenu`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `password_resets` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `submenu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `menu_id` int(11) NOT NULL,
+  `subMenu` varchar(100) NOT NULL,
+  `route` varchar(100) NOT NULL,
+  `status` int(2) NOT NULL DEFAULT '1',
+  `priority` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `password_resets`
+-- Dumping data for table `submenu`
 --
 
-LOCK TABLES `password_resets` WRITE;
-/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
-/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
+LOCK TABLES `submenu` WRITE;
+/*!40000 ALTER TABLE `submenu` DISABLE KEYS */;
+INSERT INTO `submenu` VALUES (1,3,'Category','category',1,1),(2,3,'Sub Category','subcategory',1,2),(3,3,'Product','product',1,3),(4,3,'Damaged Product','damaged-product',1,4),(5,5,'New Purchases','purchases',1,1),(6,5,'Purchases History','purchases-history',1,2),(9,7,' New Salse','sales',1,1),(10,7,'Sales History','sales-history',1,2),(11,8,'Sales Report','sales-report',1,1),(12,8,'Purchases Report','purchases-report',1,2),(14,5,'Purchase Details','purchases-details',0,3),(15,5,'Purchases Due Payment','purchases-due-payment',0,3),(16,7,'Sales Invoice Details','sales-invoice-details',0,3),(17,7,'Sales Take Payment','sales-take-payment',0,4),(18,4,'User Role','user-role',0,1),(19,4,'Profile Settings','profile-settings',1,2);
+/*!40000 ALTER TABLE `submenu` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-20 17:56:20
+-- Dump completed on 2018-07-20 17:56:14
