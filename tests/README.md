@@ -16,4 +16,7 @@
 # ============================================
 ## Faltam ser testados ( Models e Controllers )
     DamagedProduct
+    Setting
+    Menu
+    SubMenu
     User
