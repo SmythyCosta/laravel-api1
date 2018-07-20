@@ -60,13 +60,31 @@ Route::prefix('v1')->group(function (){
     // ====================== end Category ======================
 
 
+    // ====================== Product ======================
+    Route::post('product-save','ProductController@productSave');
+	Route::get('all-product','ProductController@allProduct');
+	Route::post('get-product-details','ProductController@getProduct');
+	Route::post('product-update','ProductController@productUpdate');
+	Route::post('get-product-info','ProductController@getProductInfo');
+    // ====================== end Product ======================
+
+
+	// ====================== DamagedProduct ======================
+	Route::post('damaged-product-save','DamagedProductController@productSave');
+	Route::get('all-damaged-product','DamagedProductController@allDamagedProduct');
+	Route::post('get-all-product-by-damaged','DamagedProductController@allProduct');
+	Route::post('get-damaged-product','DamagedProductController@getDamagedProduct');
+	Route::post('damaged-product-update','DamagedProductController@productUpdate');
+    // ====================== end DamagedProduct ======================
+
+
 
 
     //////////////////////////////////////
     //  | Grupo de Rotas
     //////////////////////////////////////
     Route::resources([
-		'products' => 'ProductController',
+		//'products' => 'ProductController',
 		'users' => 'UsersController',
 	]);
 
