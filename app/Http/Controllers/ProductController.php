@@ -81,4 +81,32 @@ class ProductController extends Controller
     }
 
 
+    public function productUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $product = Product::find($id);
+        $product->serial_number = $request->input('serial_number');
+        $product->category_id = $request->input('category');
+        $product->sub_category_id = $request->input('subCategory');
+        $product->name = $request->input('name');
+        $product->purchase_price = $request->input('purchase_price');
+        $product->selling_price = $request->input('selling_price');
+        $product->note = $request->input('note');
+        $product->status = $request->input('status');
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            
+            // Get the contents of the file
+            $contents = $file->openFile()->fread($file->getSize());
+            $product->image = $contents;
+        
+        }
+        
+        $product->save();
+        
+        return response()->json(['status'=>200,'mesg'=>'Product Update Success']);
+    }
+
+
 }

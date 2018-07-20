@@ -58,6 +58,8 @@ Route::prefix('v1')->group(function (){
     Route::post('product-save','ProductController@productSave');
 	Route::get('all-product','ProductController@allProduct');
 	Route::post('get-product-details','ProductController@getProduct');
+	Route::post('product-update','ProductController@productUpdate');
+
     // ====================== end Product ======================
 
 
