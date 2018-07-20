@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 //Imports Models
 use App\DamagedProduct;
+use App\Setting;
+
+//My Libs
+use App\LibPDF\DamagedProductPDF;
 
 
 class DamagedProductController extends Controller
@@ -77,6 +81,53 @@ class DamagedProductController extends Controller
 
         return response()->json(['status'=>200,'mesg'=>'Damaged Product Update Success']);
     
+    }
+
+
+    public function exportpdf(Request $request)
+    {
+        $product =  new DamagedProduct;
+        $allProduct = $product->productAll();
+
+        $setting = Setting::where('id',1)->first();
+        $pdf = new DamagedProductPDF();
+        $pdf->SetMargins(20, 10, 11.7);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+
+        $pdf->SetFont('Arial','B',12);
+        $pdf->Cell(200,5,'Damaged Product List',0,1,'L');
+        $pdf->SetFont('Arial','',10);
+        $pdf->Cell(200,5,$setting->company_name,0,1,'L');
+        $pdf->Cell(200,5,$setting->phone,0,1,'L');
+        $pdf->Cell(200,5,$setting->address,0,1,'L');
+        $pdf->Ln(10);
+
+        $pdf->SetFont('Arial','B',12);
+        $pdf->cell(25,6,"SL",1,"","C");
+        $pdf->cell(35,6,"Product Code",1,"","C");
+        $pdf->cell(50,6,"Name",1,"","C");
+        $pdf->cell(45,6,"Category",1,"","C");
+        $pdf->cell(40,6,"Purchase Price",1,"","C");
+        $pdf->cell(25,6,"Quantity",1,"","C");
+        $pdf->cell(35,6,"Date",1,"","C");
+        $pdf->Ln();
+        $pdf->SetFont('Times','',10);
+
+        foreach ($allProduct as $key => $value) {
+            $pdf->cell(25,5,$key+1,1,"","C");
+            $pdf->cell(35,5,$value->serial_number,1,"","L");
+            $pdf->cell(50,5,$value->name,1,"","L");
+            $pdf->cell(45,5,$value->categoryName,1,"","L");
+            $pdf->cell(40,5,$value->purchase_price,1,"","C");
+            $pdf->cell(25,5,$value->quantity,1,"","C");
+            $pdf->cell(35,5,$value->date,1,"","L");
+            $pdf->Ln();
+        }
+
+        $pdf->Output();
+        exit;
+
     }
 
 }
