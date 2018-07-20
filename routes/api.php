@@ -76,6 +76,7 @@ Route::prefix('v1')->group(function (){
 	Route::post('get-all-product-by-damaged','DamagedProductController@allProduct');
 	Route::post('get-damaged-product','DamagedProductController@getDamagedProduct');
 	Route::post('damaged-product-update','DamagedProductController@productUpdate');
+    Route::get('damaged-product-list-pdf','DamagedProductController@exportpdf');
     // ====================== end DamagedProduct ======================
 
 
