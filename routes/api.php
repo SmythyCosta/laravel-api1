@@ -54,8 +54,10 @@ Route::prefix('v1')->group(function (){
     // ====================== end Category ======================
 
 
-    // ====================== Category ======================
+    // ====================== Product ======================
     Route::post('product-save','ProductController@productSave');
+	Route::get('all-product','ProductController@allProduct');
+    // ====================== end Product ======================
 
 
 

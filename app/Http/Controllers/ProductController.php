@@ -34,7 +34,17 @@ class ProductController extends Controller
             $product->image = $contents;
         }
         $product->save();
+        
         return response()->json(['status'=>200,'mesg'=>'Product Save Success']);
+    }
+
+    public function allProduct(Request $request)
+    {
+                                
+        $product =  new Product;
+        $all = $product->productAll();
+
+        return response()->json(['status'=>200,'product'=>$all]);
     }
 
 
