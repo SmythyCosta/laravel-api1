@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 //Imports Models
 use App\Product;
+use App\Setting;
+
+//My Libs
+use App\LibPDF\ProductPDF;
 
 
 class ProductController extends Controller
@@ -118,6 +122,52 @@ class ProductController extends Controller
     
         return response()->json(['status'=>200,'product'=>$single]); 
     
+    }
+
+
+    public function exportpdf(Request $request)
+    {
+        $product =  new Product;
+        $allProduct = $product->productAll();
+        $setting = Setting::where('id',1)->first();
+        $pdf = new ProductPDF();
+        $pdf->SetMargins(30, 10, 11.7);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+
+        $pdf->SetFont('Arial','B',12);
+        // $pdf->Cell(5);
+        $pdf->Cell(200,5,'Product Record List',0,1,'L');
+        $pdf->SetFont('Arial','',10);
+        $pdf->Cell(200,5,$setting->company_name,0,1,'L');
+        $pdf->Cell(200,5,$setting->phone,0,1,'L');
+        $pdf->Cell(200,5,$setting->address,0,1,'L');
+        $pdf->Ln(10);
+
+        $pdf->SetFont('Arial','B',11);
+        $pdf->cell(25,6,"SL",1,"","C");
+        $pdf->cell(33,6,"Serial Number",1,"","C");
+        $pdf->cell(50,6,"Name",1,"","C");
+        $pdf->cell(50,6,"Category",1,"","C");
+        $pdf->cell(33,6,"Purchase Price",1,"","C");
+        $pdf->cell(30,6,"Selling Price",1,"","C");
+        $pdf->cell(20,6,"Quantity",1,"","C");
+        $pdf->Ln();
+        $pdf->SetFont('Times','',10);
+
+        foreach ($allProduct as $key => $value) {
+            $pdf->cell(25,5,$key+1,1,"","C");
+            $pdf->cell(33,5,$value->serial_number,1,"","C");
+            $pdf->cell(50,5,$value->name,1,"","L");
+            $pdf->cell(50,5,$value->categoryName,1,"","L");
+            $pdf->cell(33,5,$value->purchase_price,1,"","C");
+            $pdf->cell(30,5,$value->selling_price,1,"","C");
+            $pdf->cell(20,5,$value->stock_quantity-$value->damagedQuantity,1,"","C");
+            $pdf->Ln();
+        }
+
+        $pdf->Output();
+        exit;
     }
 
 
