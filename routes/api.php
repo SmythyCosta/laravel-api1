@@ -56,7 +56,7 @@ Route::prefix('v1')->group(function (){
 
 
     Route::resources([
-		'products' => 'ProductController',
+		//'products' => 'ProductController',
 		'users' => 'UsersController',
 	]);
 
