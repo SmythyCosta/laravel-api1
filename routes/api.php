@@ -59,6 +59,9 @@ Route::prefix('v1')->group(function (){
 	Route::get('all-product','ProductController@allProduct');
 	Route::post('get-product-details','ProductController@getProduct');
 	Route::post('product-update','ProductController@productUpdate');
+	Route::post('get-product-info','ProductController@getProductInfo');
+	
+
 
     // ====================== end Product ======================
 

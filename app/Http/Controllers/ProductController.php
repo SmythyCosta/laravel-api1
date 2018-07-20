@@ -109,4 +109,14 @@ class ProductController extends Controller
     }
 
 
+    public function getProductInfo(Request $request)
+    {
+        $id = $request->input('id');
+        $single= Product::select('id','serial_number','name','purchase_price','selling_price','stock_quantity')->where('id',$id)->first();         
+    
+        return response()->json(['status'=>200,'product'=>$single]); 
+    
+    }
+
+
 }
