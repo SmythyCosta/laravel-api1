@@ -54,6 +54,11 @@ Route::prefix('v1')->group(function (){
     // ====================== end Category ======================
 
 
+    // ====================== Category ======================
+    Route::post('product-save','ProductController@productSave');
+
+
+
 
     Route::resources([
 		//'products' => 'ProductController',
