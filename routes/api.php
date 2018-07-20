@@ -20,6 +20,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function (){
 
 
+
+
 	//////////////////////////////////////
 	//  | Exibindo todas as rotas
 	//////////////////////////////////////
@@ -30,11 +32,14 @@ Route::prefix('v1')->group(function (){
 	//Route::delete('/products/{product}', 'ProductController@destroy');
 	
 
+
+
 	//////////////////////////////////////
 	//  | Simplificando a todas as Rotas
 	//  | com apenas uma linha.
 	//////////////////////////////////////
 	// Route::resources('products', 'ProductController');
+
 
 
 
@@ -56,9 +61,16 @@ Route::prefix('v1')->group(function (){
 
 
 
+
+    //////////////////////////////////////
+    //  | Grupo de Rotas
+    //////////////////////////////////////
     Route::resources([
 		'products' => 'ProductController',
 		'users' => 'UsersController',
 	]);
+
+
+
 
 });
