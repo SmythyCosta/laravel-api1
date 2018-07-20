@@ -210,8 +210,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-
+        'Fpdf' => Anouar\Fpdf\Facades\Fpdf::class,
     ],
 
 ];
