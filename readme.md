@@ -22,3 +22,11 @@
 # Libs PDF => instalados pacotes via composer
     https://packagist.org/packages/codedge/laravel-fpdf
     https://packagist.org/packages/anouar/fpdf
+    
+
+## problemas na intslação do LaavelPassport, foi instalado esa dependencia
+    https://github.com/paragonie/random_compat/issues/143
+    composer.require = "paragonie/random_compat": "^2.0"
+## versao do passport
+    https://github.com/laravel/passport/issues/644 
+    composer require laravel/passport:~4.0
