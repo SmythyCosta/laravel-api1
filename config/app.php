@@ -161,6 +161,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Codedge\Fpdf\FpdfServiceProvider::class,
+        Laravel\Passport\PassportServiceProvider::class,
 
     ],
 

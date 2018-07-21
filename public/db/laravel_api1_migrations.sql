@@ -27,7 +27,7 @@ CREATE TABLE `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +36,7 @@ CREATE TABLE `migrations` (
 
 LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
-INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2018_03_30_121020_create_products_table',1),(7,'2018_07_18_190050_create_categories_table',3),(9,'2018_07_18_190129_create_sub_categories_table',4),(10,'2018_07_20_021226_create_products_table',5);
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1),(2,'2014_10_12_100000_create_password_resets_table',1),(3,'2018_03_30_121020_create_products_table',1),(7,'2018_07_18_190050_create_categories_table',3),(9,'2018_07_18_190129_create_sub_categories_table',4),(10,'2018_07_20_021226_create_products_table',5),(11,'2016_06_01_000001_create_oauth_auth_codes_table',6),(12,'2016_06_01_000002_create_oauth_access_tokens_table',6),(13,'2016_06_01_000003_create_oauth_refresh_tokens_table',6),(14,'2016_06_01_000004_create_oauth_clients_table',6),(15,'2016_06_01_000005_create_oauth_personal_access_clients_table',6);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-20 17:56:19
+-- Dump completed on 2018-07-21 10:36:44
