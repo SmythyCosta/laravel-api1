@@ -30,3 +30,13 @@
 ## versao do passport
     https://github.com/laravel/passport/issues/644 
     composer require laravel/passport:~4.0
+    
+## Keys Passport
+    λ php artisan passport:install
+    Encryption keys generated successfully.
+    Personal access client created successfully.
+    Client ID: 1
+    Client Secret: 46WNCfpyVELWav703nEadXBV3irMGWWgkQVPWAKP
+    Password grant client created successfully.
+    Client ID: 2
+    Client Secret: Jjzmyu6KBVZdebzwgzdp7J9pFvSxzPProeVjBlMI
