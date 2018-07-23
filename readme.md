@@ -40,3 +40,37 @@
     Password grant client created successfully.
     Client ID: 2
     Client Secret: Jjzmyu6KBVZdebzwgzdp7J9pFvSxzPProeVjBlMI
+
+## gerando um cliente 
+    php artisan passport:client
+    
+    /* resultado */
+    Client ID: 3
+    Client secret: tlATCF6MUGBqpCHGo74joGPyfb9f210RcoftUYSJ
+    
+
+## Test in Postman
+    
+    #####################
+    #  Gerando o token  #
+    #####################
+    // POST http://localhost:8000/api/v1/oauth/token
+    //
+    // =============== form-data ===============
+    grant_type        :client_credentials
+    client_id         :3
+    client_secret     :tlATCF6MUGBqpCHGo74joGPyfb9f210RcoftUYSJ
+    
+   
+   
+    
+    ##################################
+    #  Acessando uma rota protegida  #
+    ##################################
+    // POST http://localhost:8000/api/v1/Rota-protegida
+    //
+    // para acessar a rota deves enviar
+    // nos headers da requisição o token
+    //
+    // =============== Headers ===============
+    Authorization        :Bearer +Token

@@ -35,12 +35,21 @@ Route::prefix('v1')->group(function (){
 
 
 	//////////////////////////////////////
-	//  | Simplificando a todas as Rotas
-	//  | com apenas uma linha.
-	//////////////////////////////////////
-	// Route::resources('products', 'ProductController');
+    //  | Simplificando a todas as Rotas
+    //  | com apenas uma linha.
+    //////////////////////////////////////
+    // Route::resources('products', 'ProductController');
 
 
+
+
+    //////////////////////////////////////
+    //  | Grupo de Rotas
+    //////////////////////////////////////
+    Route::resources([
+        //'products' => 'ProductController',
+        'users' => 'UsersController',
+    ]);
 
 
     // ====================== Category ======================
@@ -62,35 +71,26 @@ Route::prefix('v1')->group(function (){
 
     // ====================== Product ======================
     Route::post('product-save','ProductController@productSave');
-	Route::get('all-product','ProductController@allProduct');
-	Route::post('get-product-details','ProductController@getProduct');
-	Route::post('product-update','ProductController@productUpdate');
-	Route::post('get-product-info','ProductController@getProductInfo');
+    Route::get('all-product','ProductController@allProduct');
+    Route::post('get-product-details','ProductController@getProduct');
+    Route::post('product-update','ProductController@productUpdate');
+    Route::post('get-product-info','ProductController@getProductInfo');
     Route::get('product-list-pdf','ProductController@exportpdf');
     // ====================== end Product ======================
 
 
-	// ====================== DamagedProduct ======================
-	Route::post('damaged-product-save','DamagedProductController@productSave');
-	Route::get('all-damaged-product','DamagedProductController@allDamagedProduct');
-	Route::post('get-all-product-by-damaged','DamagedProductController@allProduct');
-	Route::post('get-damaged-product','DamagedProductController@getDamagedProduct');
-	Route::post('damaged-product-update','DamagedProductController@productUpdate');
+    // ====================== DamagedProduct ======================
+    Route::post('damaged-product-save','DamagedProductController@productSave');
+    Route::get('all-damaged-product','DamagedProductController@allDamagedProduct');
+    Route::post('get-all-product-by-damaged','DamagedProductController@allProduct');
+    Route::post('get-damaged-product','DamagedProductController@getDamagedProduct');
+    Route::post('damaged-product-update','DamagedProductController@productUpdate');
     Route::get('damaged-product-list-pdf','DamagedProductController@exportpdf');
     // ====================== end DamagedProduct ======================
 
 
-
-
-    //////////////////////////////////////
-    //  | Grupo de Rotas
-    //////////////////////////////////////
-    Route::resources([
-		//'products' => 'ProductController',
-		'users' => 'UsersController',
-	]);
-
-
+    // ====================== Passport ======================
+    Route::post('oauth/token', 'Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
 
 
 });
