@@ -61,14 +61,9 @@
     client_id         :3
     client_secret     :tlATCF6MUGBqpCHGo74joGPyfb9f210RcoftUYSJ
     
-    
-        // =============== form-data ===============
-        grant_type        :password
-        client_id         :3
-        client_secret     :tlATCF6MUGBqpCHGo74joGPyfb9f210RcoftUYSJ
+
    
    
-    
     ##################################
     #  Acessando uma rota protegida  #
     ##################################
