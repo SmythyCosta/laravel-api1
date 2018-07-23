@@ -90,7 +90,7 @@ Route::prefix('v1')->group(function (){
 
 
     // ====================== Passport ======================
-    Route::post('oauth/token', 'Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
+    Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
 
 
 });
