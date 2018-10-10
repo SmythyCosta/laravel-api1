@@ -100,7 +100,6 @@ class CategoryController extends Controller
         return response()->json(['status'=>200,'subCat'=>$find]);
     }
 
-
     public function subCategoryUpdate(Request $request)
     {
         $id = $request->id;
