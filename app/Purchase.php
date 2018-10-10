@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class Purchase extends Model
 {
+	//
 	protected $table = "purchase";
 
 
