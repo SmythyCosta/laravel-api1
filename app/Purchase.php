@@ -33,6 +33,20 @@ class Purchase extends Model
     	return $data;
     }
 
-    
+    public function purchaseReportData(Request $request)
+    {
+        $fromDate = $request->input('fromdate');
+        $toDate = $request->input('todate');
+        $report =   DB::table('purchase')
+                            ->join('supplier', 'purchase.supplier_id', '=', 'supplier.id')
+                            ->join('payment','payment.purchase_id','=','purchase.id')
+                            ->select(DB::raw('DATE_FORMAT(purchase.created_at,"%d %M %Y") as date'),'purchase.due','purchase.purchase_code','payment.payment_type',DB::raw('sum(payment.amount) as amount'),'supplier.company')
+                            ->whereRaw("purchase.created_at >= '".$fromDate." 00:00:00' AND purchase.created_at <= '".$toDate." 00:00:00'")
+                            ->groupBy('purchase.id')
+                            ->orderBy('purchase.id','DESC')
+                            ->get();
+        return $report;
+    }
+
 
 }
