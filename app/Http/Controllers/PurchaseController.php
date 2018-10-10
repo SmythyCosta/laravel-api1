@@ -11,5 +11,5 @@ use App\Purchase;
 
 class PurchaseController extends Controller{
     
-    //
+    //classe para controller
 }	
