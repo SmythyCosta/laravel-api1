@@ -17,5 +17,23 @@ class PurchaseController extends Controller{
         $all = Product::select('id','name')->where('status',1)->get();           
         return response()->json(['status'=>200,'product'=>$all]); 
     }
+
+    public function getProductForPurchases(Request $request)
+    {
+    	$id = $request->productId;
+    	$single = Product::find($id);
+        $data = [
+            'id'  => $single->id,
+            'serial_number'  => $single->serial_number,
+            'name'  => $single->name,
+            'category_id'  => $single->category_id,
+            'sub_category_id'  => $single->sub_category_id,
+            'purchase_price'  => $single->purchase_price,
+            'selling_price'  => $single->selling_price,
+            'note'  => $single->note,
+            'stock_quantity'  => $single->stock_quantity
+        ];
+        return response()->json(['status'=>200,'product'=>$data]);
+    }
     
 }	
