@@ -11,5 +11,4 @@ class Supplier extends Model
     //
     protected $table = "supplier";
 
-
 }
