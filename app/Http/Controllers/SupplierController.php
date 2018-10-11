@@ -55,5 +55,24 @@ class SupplierController extends Controller
         return response()->json(['status'=>200,'mesg'=>'Supplier Save Success']); 
     }
 
+    public function supplierUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $supplier = Supplier::find($id);
+        $supplier->name = $request->input('name');
+        $supplier->company = $request->input('company');
+        $supplier->email = $request->input('email');
+        $supplier->phone = $request->input('phone');
+        $supplier->status = $request->input('status');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            // Get the contents of the file
+            $contents = $file->openFile()->fread($file->getSize());
+            $supplier->image = $contents;
+        }
+        $supplier->save();
+        return response()->json(['status'=>200,'mesg'=>'Supplier Update Success']); 
+    }
+
 
 }
