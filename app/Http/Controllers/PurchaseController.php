@@ -35,5 +35,12 @@ class PurchaseController extends Controller{
         ];
         return response()->json(['status'=>200,'product'=>$data]);
     }
-    
+
+    public function getAllPurchases(Request $request)
+    {
+        $purchase =  new Purchase();
+        $all = $purchase->allPurchase();
+        return response()->json(['status'=>200,'purchase'=>$all]);
+    }
+
 }	
