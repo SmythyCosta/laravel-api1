@@ -4,9 +4,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Employee extends Model
+class Invoice extends Model
 {
     //
-    protected $table = "employee";
+    protected $table = "invoice";
 
 }
