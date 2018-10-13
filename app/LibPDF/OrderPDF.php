@@ -27,5 +27,9 @@ class OrderPDF extends baseFpdf{
 		}
 	}
 
-	
+	function SetCellMargin($margin){
+        $this->cMargin = $margin;
+    }
+
+
 }
