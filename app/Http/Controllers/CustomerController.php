@@ -52,4 +52,23 @@ class CustomerController extends Controller
         return response()->json(['status'=>200,'customer'=>$data]);
     }
 
+    public function getCustomer(Request $request)
+    {
+        $id = $request->input('id');
+        $find = Customer::find($id);
+        $data = [
+            'id' => $find->id,
+            'name' => $find->name,
+            'email' => $find->email,
+            'phone' => $find->phone,
+            'address' => $find->address,
+            'discount_percentage' => $find->discount_percentage,
+            'status' => $find->status,
+            'gender' => $find->gender,
+            'image' => base64_encode($find->image)
+        ];
+        // echo '<img src="data:image/jpeg;base64,'.base64_encode( $find->image ).'"/>';
+        return response()->json(['status'=>200,'customer'=>$data]);
+    }
+    
 }
