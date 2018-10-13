@@ -45,4 +45,11 @@ class CustomerController extends Controller
         return response()->json(['status'=>200,'customer'=>$all]);
     }
 
+    public function allCustomer()
+    {
+        $customer = new Customer();
+        $data = $customer->allCustomer();
+        return response()->json(['status'=>200,'customer'=>$data]);
+    }
+
 }
