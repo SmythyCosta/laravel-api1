@@ -93,4 +93,11 @@ class CustomerController extends Controller
         return response()->json(['status'=>200,'mesg'=>'Customer Update Success']); 
     }
 
+    public function getCustomerByDiscount(Request $request)
+    {
+        $id = $request->input('id');
+        $customer = Customer::select('id','discount_percentage')->where('id',$id)->first();
+        return response()->json(['status'=>200,'customer'=>$customer]); 
+    }
+
 }
