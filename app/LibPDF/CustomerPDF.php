@@ -4,7 +4,7 @@ namespace App\LibPDF;
 use Anouar\Fpdf\Fpdf as baseFpdf;
 
 
-class CustomerLib extends baseFpdf{
+class CustomerPDF extends baseFpdf{
 
     public function __construct(){
         $orientation = 'L';
