@@ -35,4 +35,14 @@ class CustomerController extends Controller
         return response()->json(['status'=>200,'mesg'=>'Customer Save Success']); 
     }
 
+    public function allCustomerList()
+    {
+        $all = DB::table('customer')->select('customer.id', 'customer.name')
+                    ->where('status',1)
+                    ->orderBy('id','DESC')
+                    ->get();
+
+        return response()->json(['status'=>200,'customer'=>$all]);
+    }
+
 }
