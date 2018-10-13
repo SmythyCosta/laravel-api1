@@ -30,4 +30,9 @@ class CustomerLib extends baseFpdf{
         }   
     }
 
+    function SetCellMargin($margin){
+        //
+        $this->cMargin = $margin;
+    }
+
 }
