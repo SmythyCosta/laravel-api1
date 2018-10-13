@@ -27,4 +27,9 @@ class PurchasePDF extends baseFpdf{
 		}
 	}
 
+	function SetCellMargin($margin){
+        // Set cell margin
+        $this->cMargin = $margin;
+    }
+
 }
