@@ -70,5 +70,27 @@ class CustomerController extends Controller
         // echo '<img src="data:image/jpeg;base64,'.base64_encode( $find->image ).'"/>';
         return response()->json(['status'=>200,'customer'=>$data]);
     }
-    
+
+    public function update(Request $request)
+    {
+        $id = $request->input('id');
+        $customer = Customer::find($id);
+        $customer->name = $request->input('name');
+        $customer->phone = $request->input('phone');
+        $customer->email = $request->input('email');
+        $customer->address = $request->input('address');
+        $customer->discount_percentage = $request->input('discount_percentage');
+        $customer->status = $request->input('status');
+        $customer->gender = $request->input('gender');
+        $customer->updated_at = date('Y-m-d');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            // Get the contents of the file
+            $contents = $file->openFile()->fread($file->getSize());
+            $customer->image = $contents;
+        }
+        $customer->save();
+        return response()->json(['status'=>200,'mesg'=>'Customer Update Success']); 
+    }
+
 }
