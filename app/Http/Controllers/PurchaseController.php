@@ -159,6 +159,27 @@ class PurchaseController extends Controller{
     
         return response()->json(['status'=>200,'purchase' => $data]);
     }
-    
+
+    public function purchasesPaymentUpdate(Request $request)
+    {
+        if(!empty($request->input('receivedAmount'))){
+            $purchase_id = $request->input('purchase_id');
+            $receivedAmount = $request->input('receivedAmount');
+            $date = $request->input('date');
+            $purchase = Purchase::find($purchase_id);
+            $purchase->due = $purchase->due-$receivedAmount;
+            $purchase->updated_at = $date;
+            $purchase->save();
+
+            $payment['amount'] = $receivedAmount;
+            $payment['type']   =   'expense';
+            $payment['supplier_id'] = $request->input('supplier_id');
+            $payment['purchase_id'] = $purchase_id;
+            $payment['payment_type'] = $request->input('paymentType');
+            $payment['created_at'] = $request->input('date');
+            DB::table('payment')->insert($payment);
+        }
+        return response()->json(['status'=>200,'purchase_id'=>$purchase_id]); 
+    }
 
 }	
