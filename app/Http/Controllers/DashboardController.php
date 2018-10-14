@@ -43,5 +43,11 @@ class DashboardController extends Controller
         $purchase = DB::select( DB::raw("SELECT sum(amount) as amount,DATE_FORMAT(created_at,'%Y') as date  FROM payment where type ='expense' and supplier_id  IS not null group by DATE_FORMAT(created_at,'%Y')") );
         return response()->json(['status'=>200,'purchase'=>$purchase,'sales'=>$sales]);
     }
-    
+
+	public function latestProduct(Request $request)
+	{
+		$product = DB::select('SELECT p.id,p.name,p.stock_quantity,p.purchase_price,d.quantity as damagedQuantity from product p left join damaged_product d on p.id=d.product_id where p.status=1 order by p.id desc limit 5');
+		return response()->json(['status'=>200,'product'=>$product]);
+	}
+
 }
