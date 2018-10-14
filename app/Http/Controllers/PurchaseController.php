@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\DB;
 
 //Imports Models
 use App\Product;
-use App\Purchase;
+use App\Purchase; 
+use App\Supplier;
 
 class PurchaseController extends Controller{
     
@@ -34,6 +35,12 @@ class PurchaseController extends Controller{
             'stock_quantity'  => $single->stock_quantity
         ];
         return response()->json(['status'=>200,'product'=>$data]);
+    }
+
+    public function getAllSupplier(Request $request)
+    {
+        $all = Supplier::select('id','company','name')->where('status',1)->get();           
+        return response()->json(['status'=>200,'supplier'=>$all]); 
     }
 
     public function getAllPurchases(Request $request)
