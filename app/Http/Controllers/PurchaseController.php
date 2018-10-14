@@ -123,5 +123,42 @@ class PurchaseController extends Controller{
         return response()->json(['status'=>200,'purchase' => $data]);
     }
 
+    public function purchasesInvoiceDetails(Request $request)
+    {
+        $setting = new Setting;  
+        $settingData = $setting->settingData(); 
+
+        $id = $request->input('id');
+        $purchase =  DB::table('purchase')
+                        ->select('purchase.id',DB::raw('DATE_FORMAT(purchase.created_at,"%d %M %Y") as date'),'purchase.purchase_code','purchase.purchase_info','purchase.supplier_id','purchase.due')
+                        ->where('purchase.id',$id)
+                        ->first(); 
+        $payment = DB::table('payment')->select(DB::raw('sum(amount) as totalAmount'))->where('purchase_id',$purchase->id)->first();                  
+        $data['settingData']      = $settingData;                                 
+        $data['purchase_id']      =  $purchase->id;                                                               
+        $data['purchase_code']    =  $purchase->purchase_code;                                
+        $data['date']             =  $purchase->date;                                
+        $data['due']              =  $purchase->due;
+        $data['supplier_id']      =  $purchase->supplier_id;
+        $data['totalAmount']      =  $payment->totalAmount;                                
+        $product = [];  
+        $purchase_info =json_decode($purchase->purchase_info);
+         $totalPrice = 0;               
+        foreach ($purchase_info as $key => $value) {
+            $product_info = DB::table('product')->select('serial_number','name')->where('id',$value->id)->first();
+            $product['product_id'] = $value->id;
+            $product['product_name'] = $product_info->name;
+            $product['serial_number'] = $product_info->serial_number;
+            $product['quantity'] = $value->quantity;
+            $product['purchase_price'] = $value->purchase_price;
+            $data['product_info'][] = $product;
+            $totalPrice += $value->purchase_price * $value->quantity;
+            
+        }
+        $data['total_price']   = $totalPrice;
+    
+        return response()->json(['status'=>200,'purchase' => $data]);
+    }
+    
 
 }	
