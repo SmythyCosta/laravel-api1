@@ -12,6 +12,7 @@ use App\Setting;
 
 //My Libs
 use App\LibPDF\DamagedProductPDF;
+use Excel;
 
 
 class DamagedProductController extends Controller
@@ -128,6 +129,74 @@ class DamagedProductController extends Controller
         $pdf->Output();
         exit;
 
+    }
+
+    public function downloadExcel()
+    {
+        $type = 'xlsx';
+        
+        $setting = Setting::where('id',1)->first();
+        Excel::create('Damaged-product-record-list', function ($excel) {
+            $excel->setTitle('Damaged Product Record List');
+
+            $excel->sheet('Damaged Product', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:E1');
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(30);
+                    // $row->setBorder('solid', 'none', 'none', 'solid');
+                });
+
+                $sheet->row(1, array('Damaged Product Record List'));
+
+                $product =  new DamagedProduct;
+                $allProduct = $product->productAll();
+
+                $sheet->appendRow(2,
+                                    array(
+                                        'ID',
+                                        'Product Code',
+                                        'Name',
+                                        'Category',
+                                        'Purchase Price',
+                                        'Quantity',
+                                        'Date'
+                                        )
+                                    );
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                    $row->setAlignment('center');
+                    $row->setBorder('thin', 'thin', 'thin', 'thin');
+                });
+
+                // putting users data as next rows
+                foreach ($allProduct as $data) {
+
+                    $sheet->appendRow(
+                                    array(
+                                        $data->id,
+                                        $data->serial_number,
+                                        $data->name,
+                                        $data->categoryName,
+                                        $data->purchase_price,
+                                        $data->quantity,
+                                        $data->date
+                                        )
+                                    );
+                    $sheet->row($sheet->getHighestRow(), function ($row) {
+                        $row->setAlignment('center');
+                        $row->setBorder('thin', 'thin', 'thin', 'thin');
+                    });
+                }
+
+                // die();
+            });
+
+        })->export('xls');
     }
 
 }
