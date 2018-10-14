@@ -170,5 +170,72 @@ class ProductController extends Controller
         exit;
     }
 
+    public function downloadExcel()
+    {
+        $type = 'xlsx';
+        
+        $setting = Setting::where('id',1)->first();
+        Excel::create('product-record-list', function ($excel) {
+            $excel->setTitle('Product Record List');
+
+            // Chain the setters
+            $excel->sheet('Product Record', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:E1');
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(30);
+                });
+
+                $sheet->row(1, array('Product Record List'));
+
+                // getting data to display - in my case only one record
+                $product =  new Product;
+                $allProduct = $product->productAll();
+                
+                // setting column names for data - you can of course set it manually
+                $sheet->appendRow(2,
+                                    array(
+                                        'ID',
+                                        'Serial Number',
+                                        'Name',
+                                        'Category',
+                                        'Purchase Price',
+                                        'Selling Price',
+                                        'Quantity'
+                                        )
+                                    );
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                    $row->setAlignment('center');
+                    $row->setBorder('thin', 'thin', 'thin', 'thin');
+                });
+
+                // putting users data as next rows
+                foreach ($allProduct as $data) {
+
+                    $sheet->appendRow(
+                                    array(
+                                        $data->id,
+                                        $data->serial_number,
+                                        $data->name,
+                                        $data->categoryName,
+                                        $data->purchase_price,
+                                        $data->selling_price,
+                                        $data->stock_quantity-$data->damagedQuantity
+                                        )
+                                    );
+                    $sheet->row($sheet->getHighestRow(), function ($row) {
+                        $row->setAlignment('center');
+                        $row->setBorder('thin', 'thin', 'thin', 'thin');
+                    });
+                }
+            });
+
+        })->export('xls');
+    }
 
 }
