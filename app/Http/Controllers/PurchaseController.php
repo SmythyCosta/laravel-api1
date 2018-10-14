@@ -13,6 +13,9 @@ use App\Supplier;
 use App\Setting; 
 use App\LibPDF\PurchasePDF;
 
+//libs
+use Excel;
+
 class PurchaseController extends Controller{
     
     public function getAllPurchasesProduct(Request $request)
