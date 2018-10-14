@@ -225,5 +225,71 @@ class PurchaseController extends Controller{
         exit;
     }
 
+    public function downloadExcel()
+    {
+        $type = 'xlsx';
+        
+        $setting = Setting::where('id',1)->first();
+        Excel::create('purchases-history-list', function ($excel) {
+            $excel->setTitle('Purchases History List');
+
+            // Chain the setters
+            $excel->sheet('Purchases History', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:E1');
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(30);
+                });
+                $sheet->row(1, array('Purchases History List'));
+
+                // getting data to display - in my case only one record
+
+                $purchase =  new Purchase();
+                $allPurchase = $purchase->allPurchase();
+                // setting column names for data - you can of course set it manually
+                $sheet->appendRow(2,
+                                    array(
+                                        'ID',
+                                        'Purchases Code',
+                                        'Name',
+                                        'Date',
+                                        'Amount',
+                                        'Deu'
+                                        )
+                                    );
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                    $row->setAlignment('center');
+                    $row->setBorder('thin', 'thin', 'thin', 'thin');
+                });
+
+                // putting users data as next rows
+                foreach ($allPurchase as $data) {
+                    $payment = DB::table('payment')->select(DB::raw('sum(amount) as totalAmount'))->where('purchase_id',$data->id)->first();
+                    $sheet->appendRow(
+                                    array(
+                                        $data->id,
+                                        $data->purchase_code,
+                                        $data->company,
+                                        $data->date,
+                                        $payment->totalAmount,
+                                        $data->due
+                                        )
+                                    );
+                    $sheet->row($sheet->getHighestRow(), function ($row) {
+                        $row->setAlignment('center');
+                        $row->setBorder('thin', 'thin', 'thin', 'thin');
+                    });
+                }
+
+            });
+
+        })->export('xls');
+    }
+
 
 }	
