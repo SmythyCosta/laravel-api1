@@ -37,4 +37,11 @@ class DashboardController extends Controller
 		return response()->json(['status'=>200,'sales'=>$invoice,'payment'=>$payment,'expense'=>$expense]);
 	}
 
+	public function getChartData(Request $request)
+    {
+        $sales = DB::select( DB::raw("SELECT sum(amount) as amount,DATE_FORMAT(created_at,'%Y') as date  FROM payment where type ='income' and customer_id IS  not null group by DATE_FORMAT(created_at,'%Y')") );
+        $purchase = DB::select( DB::raw("SELECT sum(amount) as amount,DATE_FORMAT(created_at,'%Y') as date  FROM payment where type ='expense' and supplier_id  IS not null group by DATE_FORMAT(created_at,'%Y')") );
+        return response()->json(['status'=>200,'purchase'=>$purchase,'sales'=>$sales]);
+    }
+    
 }
