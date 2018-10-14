@@ -100,4 +100,35 @@ class CustomerController extends Controller
         return response()->json(['status'=>200,'customer'=>$customer]); 
     }
 
+    public function getCustomerInfo(Request $request)
+    {
+        $id = $request->input('id');
+        $customer = Customer::select('id','name','email','address','phone','discount_percentage','status','image')->where('id',$id)->first();
+        $invoice = DB::table('invoice')->select('id','invoice_code')->where('customer_id',$id)->get();
+        $paymentInfo = '';
+        foreach ($invoice as $key => $value) {
+            $payment = DB::table('payment')->select(DB::raw('DATE_FORMAT(created_at,"%d %M %Y") as date'),'id','payment_type',DB::raw('SUM(amount) as amount'))->where('invoice_id',$value->id)->first();
+            // print_r($payment);
+            $paymentInfo[] = [
+                'id' => $value->id,
+                'invoice_code' => $value->invoice_code,
+                'amount' => $payment->amount,
+                'payment_type' => $payment->payment_type,
+                'date' => $payment->date
+            ];
+        }
+        $customerData = [
+            'id' => $customer->id,
+            'name' => $customer->name,
+            'email' => $customer->email,
+            'phone' => $customer->phone,
+            'address' => $customer->address,
+            'discount_percentage' => $customer->discount_percentage,
+            'status' => $customer->status,
+            'image' => base64_encode($customer->image)
+        ];
+        return response()->json(['status'=>200,'customer'=>$customerData,'purchase'=>$paymentInfo]); 
+    }
+
+
 }
