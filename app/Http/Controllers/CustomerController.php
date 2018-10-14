@@ -130,5 +130,50 @@ class CustomerController extends Controller
         return response()->json(['status'=>200,'customer'=>$customerData,'purchase'=>$paymentInfo]); 
     }
 
+    public function exportpdf(Request $request)
+    {
+        $customer = new Customer();
+        $allCustomer = $customer->allCustomer();
+
+        $setting = Setting::where('id',1)->first();
+        $pdf = new CustomerLib();
+        $pdf->SetMargins(45, 10, 11.7);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+    
+        $pdf->SetFont('Arial','B',12);
+        // $pdf->Cell(5);
+        $pdf->Cell(200,5,'Customer Record List',0,1,'L');
+        $pdf->SetFont('Arial','',10);
+        $pdf->Cell(200,5,$setting->company_name,0,1,'L');
+        $pdf->Cell(200,5,$setting->phone,0,1,'L');
+        $pdf->Cell(200,5,$setting->address,0,1,'L');
+        $pdf->Cell(200,5,'Currency : '.$setting->currency,0,1,'L');
+        $pdf->Ln(10);
+
+        $pdf->SetFont('Arial','B',12);
+        $pdf->cell(15,6,"SL",1,"","C");
+        $pdf->cell(45,6,"Name",1,"","C");
+        $pdf->cell(50,6,"Email",1,"","C");
+        $pdf->cell(30,6,"Phone",1,"","C");
+        $pdf->cell(50,6,"Address",1,"","C");
+        $pdf->cell(20,6,"Status",1,"","C");
+        $pdf->Ln();
+        $pdf->SetFont('Times','',10);
+
+        foreach ($allCustomer as $key => $value) {
+            $pdf->cell(15,5,$key+1,1,"","C");
+            $pdf->cell(45,5,$value->name,1,"","L");
+            $pdf->cell(50,5,$value->email,1,"","L");
+            $pdf->cell(30,5,$value->phone,1,"","L");
+            $pdf->cell(50,5,$value->address,1,"","L");
+            $pdf->cell(20,5,(($value->status==1) ? 'Active' : 'Deactive'),1,"","L");
+            $pdf->Ln();
+        }
+
+        $pdf->Output();
+        exit;
+    }
+
 
 }
