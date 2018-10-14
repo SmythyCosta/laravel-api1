@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 //Imports Models
 use App\Customer;
 use App\Setting; 
-use App\LibPDF\CustomerPDF;
 
-//
+//My Libs
+use App\LibPDF\CustomerPDF;
 use Excel;
 
 class CustomerController extends Controller
