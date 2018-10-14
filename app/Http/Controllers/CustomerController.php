@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 //Imports Models
 use App\Customer;
+use App\Setting; 
+use App\LibPDF\CustomerPDF;
+
+//
+use Excel;
 
 class CustomerController extends Controller
 {
@@ -136,7 +141,7 @@ class CustomerController extends Controller
         $allCustomer = $customer->allCustomer();
 
         $setting = Setting::where('id',1)->first();
-        $pdf = new CustomerLib();
+        $pdf = new CustomerPDF();
         $pdf->SetMargins(45, 10, 11.7);
         $pdf->AliasNbPages();
         $pdf->AddPage();
