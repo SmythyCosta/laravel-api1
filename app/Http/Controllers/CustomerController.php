@@ -175,5 +175,69 @@ class CustomerController extends Controller
         exit;
     }
 
+    public function downloadExcel()
+    {
+
+        Excel::create('customer-record-list', function ($excel) {
+            $excel->setTitle('Customer Record');
+
+            $excel->sheet('Customer Record', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:F1');
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(30);
+                    // $row->setBorder('solid', 'none', 'none', 'solid');
+                });
+
+                $sheet->row(1, array('Customer Record List'));
+
+                // getting data to display - in my case only one record
+                $allData = Customer::get()->toArray();
+
+                $sheet->appendRow(2,
+                                    array(
+                                        'ID',
+                                        'Name',
+                                        'Email',
+                                        'Phone',
+                                        'Address',
+                                        'Status'
+                                        )
+                                    );
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                    $row->setAlignment('center');
+                    $row->setBorder('thin', 'thin', 'thin', 'thin');
+                });
+
+                // putting users data as next rows
+                foreach ($allData as $user) {
+
+                    $sheet->appendRow(
+                                    array(
+                                        $user['id'],
+                                        $user['name'],
+                                        $user['email'],
+                                        $user['phone'],
+                                        $user['address'],
+                                        (($user['status']==1) ? 'Active' : 'Deactive')
+                                        )
+                                    );
+                    $sheet->row($sheet->getHighestRow(), function ($row) {
+                        $row->setAlignment('center');
+                        $row->setBorder('thin', 'thin', 'thin', 'thin');
+                    });
+                }
+
+                // die();
+            });
+
+        })->export('xls');
+    }
+
 
 }
