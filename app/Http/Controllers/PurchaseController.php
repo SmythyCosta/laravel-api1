@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 use App\Product;
 use App\Purchase; 
 use App\Supplier;
-use App\Setting;
+use App\Setting; 
+use App\LibPDF\PurchasePDF;
 
 class PurchaseController extends Controller{
     
@@ -181,5 +182,48 @@ class PurchaseController extends Controller{
         }
         return response()->json(['status'=>200,'purchase_id'=>$purchase_id]); 
     }
+
+    public function exportpdf(Request $request)
+    {
+        $purchase =  new Purchase();
+        $allPurchase = $purchase->allPurchase();
+        $setting = Setting::where('id',1)->first();
+        $pdf = new PurchasePDF();
+        $pdf->SetMargins(40, 10, 11.7);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+    
+        $pdf->SetFont('Arial','B',12);
+        // $pdf->Cell(5);
+        $pdf->Cell(200,5,'Purchases History List',0,1,'L');
+        $pdf->SetFont('Arial','',10);
+        $pdf->Cell(200,5,$setting->company_name,0,1,'L');
+        $pdf->Cell(200,5,$setting->phone,0,1,'L');
+        $pdf->Cell(200,5,$setting->address,0,1,'L');
+        $pdf->Ln(10);
+
+        $pdf->SetFont('Arial','B',12);
+        $pdf->cell(25,6,"ID",1,"","C");
+        $pdf->cell(45,6,"Purchase Code",1,"","C");
+        $pdf->cell(45,6,"Name",1,"","C");
+        $pdf->cell(35,6,"date",1,"","C");
+        $pdf->cell(35,6,"Amount",1,"","C");
+        $pdf->cell(35,6,"Due",1,"","C");
+        $pdf->Ln();
+        $pdf->SetFont('Times','',10);
+
+        foreach ($allPurchase as $key => $value) {
+            $pdf->cell(25,5,$key+1,1,"","C");
+            $pdf->cell(45,5,$value->purchase_code,1,"","L");
+            $pdf->cell(45,5,$value->company,1,"","L");
+            $pdf->cell(35,5,$value->date,1,"","L");
+            $pdf->cell(35,5,$value->amount,1,"","L");
+            $pdf->cell(35,5,$value->due,1,"","L");
+            $pdf->Ln();
+        }
+        $pdf->Output();
+        exit;
+    }
+
 
 }	
