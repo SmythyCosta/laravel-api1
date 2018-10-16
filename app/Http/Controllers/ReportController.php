@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 //Imports Models
 use App\Invoice;
 use App\Setting;
+use App\Purchase;
 use App\LibPDF\SalesPDF;
 
 //libs
@@ -150,5 +151,11 @@ class ReportController extends Controller
         })->export('xls');
     }
 
+    public function getPurchaseReportData(Request $request)
+    {
+        $purchase = new Purchase();
+        $report = $purchase->purchaseReportData($request);
+    	return response()->json(['status'=>200,'data'=>$report]); 
+    }
 
 }
