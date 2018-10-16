@@ -71,4 +71,11 @@ class SalesController extends Controller
         return response()->json(['status'=>200,'sales_id'=>$insert_id]);
     }
 
+    public function getAllSales(Request $request)
+    {
+        $sales =  new Invoice();
+        $allData = $sales->getAllSales();
+        return response()->json(['status'=>200,'sales'=>$allData]);
+    }
+
 }
