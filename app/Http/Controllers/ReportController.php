@@ -71,4 +71,84 @@ class ReportController extends Controller
         exit;
     }
 
+    public function salesReportDownloadExcel(Request $request)
+    {
+        $setting = Setting::where('id',1)->first();
+        Excel::create('sales report', function ($excel) use ($request) {
+            $excel->setTitle('Sales Report');
+
+            // Chain the setters
+            $excel->sheet('sales report', function ($sheet) use ($request) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:E1');
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(30);
+                    // $row->setBorder('solid', 'none', 'none', 'solid');
+                });
+                // $sheet->setBorder('A1:F1', 'thin');
+
+                // Set all borders (top, right, bottom, left)
+                // $cells->setBorder('solid', 'none', 'none', 'solid');
+                $sheet->row(1, array('Sales Report'));
+
+
+                // getting data to display - in my case only one record
+
+              
+                // setting column names for data - you can of course set it manually
+
+                $sheet->appendRow(2,
+                                    array(
+                                        'SL',
+                                        'Invoice Code',
+                                        'Customer Name',
+                                        'Date',
+                                        'Amount',
+                                        'Due',
+                                        'Payment Type'
+                                        )
+                                    );
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                    $row->setAlignment('center');
+                    $row->setBorder('thin', 'thin', 'thin', 'thin');
+                });
+                
+                $sheet->setColumnFormat(array( //se formatea la columna a texto
+                    'B' => \PHPExcel_Style_NumberFormat::FORMAT_NUMBER,
+                ));
+                
+                $invoice = new Invoice();
+                $report = $invoice->salesReportData($request);
+                // putting users data as next rows
+                foreach ($report as $key => $data) {
+
+                    $sheet->appendRow(
+                                    array(
+                                        $key+1,
+                                        strval($data->invoice_code),
+                                        $data->name,
+                                        $data->date,
+                                        $data->amount,
+                                        $data->due,
+                                        (($data->payment_type==1) ? 'cash' :($data->payment_type==2) ? 'check' : 'card')
+                                        )
+                                    );
+                    $sheet->row($sheet->getHighestRow(), function ($row) {
+                        $row->setAlignment('center');
+                        $row->setBorder('thin', 'thin', 'thin', 'thin');
+                    });
+                }
+
+                // die();
+            });
+
+        })->export('xls');
+    }
+
+
 }
