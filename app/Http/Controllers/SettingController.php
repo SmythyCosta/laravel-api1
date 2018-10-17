@@ -104,4 +104,26 @@ class SettingController extends Controller
         return response()->json(['status'=>200,'data'=>$menu]);
     }
 
+    public function checkPermission(Request $request)
+    {
+        $menu = $request->input('menu');
+        $token = explode(" ", $request->header('Authorization'));
+        $user = JWTAuth::toUser($token[1]);
+        if($user['type'] !=1){
+            $roleData = DB::table('user_role')->select('menu_id','sub_menu_id')->where('user_id',$user['id'])->first();
+            
+            $data = DB::select(DB::raw('SELECT count(id) as id FROM menu where id in ('.$roleData->menu_id.') AND route="'.$menu.'"'));
+            $count = $data[0]->id; //main menu
+
+            if($count==0) {
+                $data = DB::select(DB::raw('SELECT count(id) as id FROM submenu where id in ('.$roleData->sub_menu_id.') AND route="'.$menu.'"'));
+                $count = $data[0]->id;
+            }
+        }else{
+            $count = 1;
+        }
+
+        return response()->json(['status'=>200,'count'=>$count]);
+    }
+
 }
