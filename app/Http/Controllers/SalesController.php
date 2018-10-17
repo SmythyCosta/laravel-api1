@@ -152,5 +152,49 @@ class SalesController extends Controller
         return response()->json(['status'=>200,'invoice_id'=>$invoice_id]); 
     }
 
+    public function exportpdf(Request $request)
+    {
+        $sales =  new Invoice();
+        $allSales = $sales->getAllSales();
+        $setting = Setting::where('id',1)->first();
+        $pdf = new SalesPDF();
+        $pdf->SetMargins(30, 10, 11.7);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
     
+        $pdf->SetFont('Arial','B',12);
+        // $pdf->Cell(5);
+        $pdf->Cell(200,5,'Sales History List',0,1,'L');
+        $pdf->SetFont('Arial','',10);
+        $pdf->Cell(200,5,$setting->company_name,0,1,'L');
+        $pdf->Cell(200,5,$setting->phone,0,1,'L');
+        $pdf->Cell(200,5,$setting->address,0,1,'L');
+        $pdf->Ln(10);
+
+        $pdf->SetFont('Arial','B',12);
+        $pdf->cell(20,6,"SL",1,"","C");
+        $pdf->cell(35,6,"Invoice Code",1,"","C");
+        $pdf->cell(45,6,"Customer Name",1,"","C");
+        $pdf->cell(35,6,"date",1,"","C");
+        $pdf->cell(35,6,"Amount",1,"","C");
+        $pdf->cell(35,6,"Due",1,"","C");
+        $pdf->cell(35,6,"Payment Type",1,"","C");
+        $pdf->Ln();
+        $pdf->SetFont('Times','',10);
+
+        foreach ($allSales as $key => $value) {
+            $payment = DB::table('payment')->select(DB::raw('sum(amount) as totalAmount'))->where('invoice_id',$value->id)->first();
+            $pdf->cell(20,5,$key+1,1,"","C");
+            $pdf->cell(35,5,$value->invoice_code,1,"","L");
+            $pdf->cell(45,5,$value->customerName,1,"","L");
+            $pdf->cell(35,5,$value->date,1,"","L");
+            $pdf->cell(35,5,$payment->totalAmount,1,"","C");
+            $pdf->cell(35,5,$value->due,1,"","C");
+            $pdf->cell(35,5,(($value->payment_type==1) ? 'cash' :($value->payment_type==2) ? 'check' : 'card'),1,"","C");
+            $pdf->Ln();
+        }
+        $pdf->Output();
+        exit;
+    }
+
 }
