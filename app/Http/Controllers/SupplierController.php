@@ -11,6 +11,9 @@ use App\Models\Supplier;
 use App\Models\Setting;
 use App\LibPDF\SupplierPDF;
 
+//libs
+use Excel;
+
 
 
 class SupplierController extends Controller
@@ -105,6 +108,51 @@ class SupplierController extends Controller
             'image' => base64_encode($supplier->image)
         ];
         return response()->json(['status'=>200,'supplier'=>$supplierData,'purchase'=>$purchaseInfo]); 
+    }
+
+    public function exportpdf(Request $request)
+    {
+        $allSupplier = Supplier::all();
+        $setting = Setting::where('id',1)->first();
+        $pdf = new SupplierPDF();
+        $pdf->SetMargins(50, 10, 11.7);
+        $pdf->AliasNbPages();
+        $pdf->AddPage();
+    
+        $pdf->SetFont('Arial','B',12);
+        // $pdf->Cell(5);
+        $pdf->Cell(200,5,'Supplier Record List',0,1,'L');
+        $pdf->SetFont('Arial','',10);
+        $pdf->Cell(200,5,$setting->company_name,0,1,'L');
+        $pdf->Cell(200,5,$setting->phone,0,1,'L');
+        $pdf->Cell(200,5,$setting->address,0,1,'L');
+        $pdf->Cell(200,5,'Currency : '.$setting->currency,0,1,'L');
+        $pdf->Ln(10);
+
+        $pdf->SetFont('Arial','B',12);
+        $pdf->cell(15,6,"SL",1,"","C");
+        $pdf->cell(45,6,"Company",1,"","C");
+        $pdf->cell(45,6,"Name",1,"","C");
+        $pdf->cell(45,6,"Email",1,"","C");
+        $pdf->cell(30,6,"Phone",1,"","C");
+        $pdf->cell(30,6,"Status",1,"","C");
+        $pdf->Ln();
+        $pdf->SetFont('Times','',10);
+        /*for($i=1;$i<=40;$i++)
+        $pdf->Cell(0,10,'Printing line number '.$i,0,1);
+        $pdf->Ln();
+        $pdf->SetFont("Arial","",10);*/
+        foreach ($allSupplier as $key => $value) {
+            $pdf->cell(15,5,$key,1,"","C");
+            $pdf->cell(45,5,$value->company,1,"","L");
+            $pdf->cell(45,5,$value->name,1,"","L");
+            $pdf->cell(45,5,$value->email,1,"","L");
+            $pdf->cell(30,5,$value->phone,1,"","L");
+            $pdf->cell(30,5,(($value->status==1) ? 'Active' : 'Deactive'),1,"","L");
+            $pdf->Ln();
+        }
+        $pdf->Output();
+        exit;
     }
 
 
