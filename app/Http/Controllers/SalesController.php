@@ -130,4 +130,27 @@ class SalesController extends Controller
         return response()->json(['status'=>200,'invoice' => $data]);
     }
 
+    public function salesTakePayment(Request $request)
+    {
+        if(!empty($request->input('receivedAmount'))){
+            $invoice_id = $request->input('invoice_id');
+            $receivedAmount = $request->input('receivedAmount');
+            $date = $request->input('date');
+            $invoice = Invoice::find($invoice_id);
+            $invoice->due = $invoice->due-$receivedAmount;
+            $invoice->updated_at = $date;
+            $invoice->save();
+
+            $payment['amount'] = $receivedAmount;
+            $payment['type']   =   'income';
+            $payment['customer_id'] = $request->input('customer_id');
+            $payment['invoice_id'] = $invoice_id;
+            $payment['payment_type'] = $request->input('paymentType');
+            $payment['created_at'] = $request->input('date');
+            DB::table('payment')->insert($payment);
+        }
+        return response()->json(['status'=>200,'invoice_id'=>$invoice_id]); 
+    }
+
+    
 }
