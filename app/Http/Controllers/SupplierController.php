@@ -155,5 +155,90 @@ class SupplierController extends Controller
         exit;
     }
 
+    public function downloadExcel()
+    {
+        $type = 'xlsx';
+        $data = Supplier::get()->toArray();
+        $setting = Setting::where('id',1)->first();
+        Excel::create('Supplier-record-list', function ($excel) {
+            $excel->setTitle('Supplier Record List');
+
+            // Chain the setters
+            $excel->sheet('Supplier-record', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:E1');
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(30);
+                    // $row->setBorder('solid', 'none', 'none', 'solid');
+                });
+                // $sheet->setBorder('A1:F1', 'thin');
+
+                // Set all borders (top, right, bottom, left)
+                // $cells->setBorder('solid', 'none', 'none', 'solid');
+                $sheet->row(1, array('Supplier Record List'));
+
+                // second row styling and writing content
+                /*$sheet->row(2, function ($row) {
+
+                    // call cell manipulation methods
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(15);
+                    $row->setFontWeight('bold');
+
+                });*/
+
+                // $sheet->row(2, array('Something else here'));
+
+                // getting data to display - in my case only one record
+                $users = Supplier::get()->toArray();
+
+                // setting column names for data - you can of course set it manually
+                //$sheet->appendRow(array_keys($users[0])); // column names
+
+                $sheet->appendRow(2,
+                                    array(
+                                        'ID',
+                                        'Company Name',
+                                        'Name',
+                                        'Email',
+                                        'Phone',
+                                        'Status'
+                                        )
+                                    );
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                    $row->setAlignment('center');
+                    $row->setBorder('thin', 'thin', 'thin', 'thin');
+                });
+
+                // putting users data as next rows
+                foreach ($users as $user) {
+
+                    $sheet->appendRow(
+                                    array(
+                                        $user['id'],
+                                        $user['company'],
+                                        $user['name'],
+                                        $user['email'],
+                                        $user['phone'],
+                                        (($user['status']==1) ? 'Active' : 'Deactive')
+                                        )
+                                    );
+                    $sheet->row($sheet->getHighestRow(), function ($row) {
+                        $row->setAlignment('center');
+                        $row->setBorder('thin', 'thin', 'thin', 'thin');
+                    });
+                }
+
+                // die();
+            });
+
+        })->export('xls');
+    }
+
 
 }
