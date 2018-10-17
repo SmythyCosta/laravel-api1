@@ -54,4 +54,54 @@ class SettingController extends Controller
         
         return response()->json(['status'=>200,'mesg'=>'Setting Update Success']);
     }
+
+    public function getMenu(Request $request)
+    {
+        $token = explode(" ", $request->header('Authorization'));
+        if(!empty($token[1])){
+
+            $user = JWTAuth::toUser($token[1]);
+            // print_r($user['id']);die();
+            if($user['type'] !=1){
+
+                $roleData = DB::table('user_role')->select('menu_id','sub_menu_id')->where('user_id',$user['id'])->first();
+
+                $all = DB::select(DB::raw('SELECT * FROM menu where id in ('.$roleData->menu_id.') ORDER BY priority ASC'));
+                $menu = [];
+
+                foreach ($all as $key => $value) {
+                    $submenu = DB::select(DB::raw('SELECT * FROM submenu where status=1 AND menu_id='.$value->id.' AND id in ('.$roleData->sub_menu_id.') ORDER BY priority ASC'));
+                    $menu[] = [
+                        'id' =>$value->id,
+                        'name' =>$value->name,
+                        'icon' =>$value->icon,
+                        'route' =>$value->route,
+                        'type' =>$value->type,
+                        'children' =>(($value->type==1) ? $submenu :''),
+                    ];
+                }
+            }else{
+
+                $all = DB::select(DB::raw('SELECT * FROM menu ORDER BY priority ASC'));
+                $menu = [];
+
+                foreach ($all as $key => $value) {
+                    $submenu = DB::select(DB::raw('SELECT * FROM submenu where status=1 AND menu_id='.$value->id.' ORDER BY priority ASC'));
+                    $menu[] = [
+                        'id' =>$value->id,
+                        'name' =>$value->name,
+                        'icon' =>$value->icon,
+                        'route' =>$value->route,
+                        'type' =>$value->type,
+                        'children' =>(($value->type==1) ? $submenu :''),
+                    ];
+                }
+            }
+        }else{
+            $menu = '';
+        }
+
+        return response()->json(['status'=>200,'data'=>$menu]);
+    }
+
 }
