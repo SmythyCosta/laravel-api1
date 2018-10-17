@@ -78,4 +78,56 @@ class SalesController extends Controller
         return response()->json(['status'=>200,'sales'=>$allData]);
     }
 
+    public function getInvoiceDetails(Request $request)
+    {
+        $setting = new Setting;  
+        $settingData = $setting->settingData(); 
+        $id = $request->input('id');
+        $invoice =  DB::table('invoice')
+                        ->join('customer', 'invoice.customer_id', '=', 'customer.id')
+                        ->select('invoice.id',DB::raw('DATE_FORMAT(invoice.created_at,"%d %M %Y") as date'),'invoice.invoice_code','invoice.due','invoice.sub_total','invoice.grand_total','invoice.discount_percentage','invoice.vat_percentage','invoice.invoice_entries','invoice.customer_id','customer.name','customer.email','customer.phone')
+                        ->where('invoice.id',$id)
+                        ->first(); 
+        $data['settingData']   =  $settingData;                      
+        $data['customer_id']   =  $invoice->customer_id;                                
+        $data['name']          =  $invoice->name;                                
+        $data['email']         =  $invoice->email;                                
+        $data['phone']         =  $invoice->phone;                                
+        $data['discount']      =  $invoice->discount_percentage;                                
+        $data['vat']           =  $invoice->vat_percentage;                                
+        $data['invoice_id']    =  $invoice->id;                                
+        $data['invoice_code']  =  $invoice->invoice_code;                                
+        $data['date']          =  $invoice->date;                                
+        $data['due']           =  $invoice->due;
+        $data['sub_total']     =  $invoice->sub_total;
+        $data['grand_total']   =  $invoice->grand_total;
+        $product = [];  
+        $invoice_info =json_decode($invoice->invoice_entries);
+                        
+        foreach ($invoice_info as $key => $value) {
+            $product_info = DB::table('product')->select('serial_number','name')->where('id',$value->id)->first();
+            $product['product_id'] = $value->id;
+            $product['product_name'] = $product_info->name;
+            $product['serial_number'] = $product_info->serial_number;
+            $product['quantity'] = $value->quantity;
+            $product['selling_price'] = $value->selling_price;
+            $data['invoice_info'][] = $product;
+            
+        }
+        $payment_info = DB::table('payment')->select('id',DB::raw('DATE_FORMAT(created_at, "%d %M %Y") as date'),'amount','payment_type')->where('invoice_id',$invoice->id)->get();
+        $totalPay = 0;
+        foreach ($payment_info as $key => $value) {
+            $totalPay += $value->amount;
+            $payment[] = [
+                'payment_id'    =>  $value->id,
+                'payment_date'    =>  $value->date,
+                'payment_amount'    =>  $value->amount,
+                'payment_type'    =>  $value->payment_type,
+            ];
+        }
+        $data['payment_info'] = $payment;
+        $data['total_paid']   = $totalPay;
+        return response()->json(['status'=>200,'invoice' => $data]);
+    }
+
 }
