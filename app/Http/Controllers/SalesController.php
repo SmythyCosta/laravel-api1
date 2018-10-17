@@ -197,4 +197,90 @@ class SalesController extends Controller
         exit;
     }
 
+    public function downloadExcel()
+    {
+        $type = 'xlsx';
+        
+        $setting = Setting::where('id',1)->first();
+        Excel::create('Sales-history-list', function ($excel) {
+            $excel->setTitle('Sales History List');
+
+            // Chain the setters
+            $excel->sheet('Sales History', function ($sheet) {
+
+                // first row styling and writing content
+                $sheet->mergeCells('A1:E1');
+                $sheet->row(1, function ($row) {
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(30);
+                    // $row->setBorder('solid', 'none', 'none', 'solid');
+                });
+                // $sheet->setBorder('A1:F1', 'thin');
+
+                // Set all borders (top, right, bottom, left)
+                // $cells->setBorder('solid', 'none', 'none', 'solid');
+                $sheet->row(1, array('Sales History List'));
+
+                // second row styling and writing content
+                /*$sheet->row(2, function ($row) {
+
+                    // call cell manipulation methods
+                    $row->setFontFamily('Comic Sans MS');
+                    $row->setFontSize(15);
+                    $row->setFontWeight('bold');
+
+                });*/
+
+                // $sheet->row(2, array('Something else here'));
+
+                // getting data to display - in my case only one record
+
+                $sales =  new Invoice();
+                $allSales = $sales->getAllSales();
+                // setting column names for data - you can of course set it manually
+                //$sheet->appendRow(array_keys($users[0])); // column names
+
+                $sheet->appendRow(2,
+                                    array(
+                                        'ID',
+                                        'Invoice Code',
+                                        'Name',
+                                        'Date',
+                                        'Amount',
+                                        'Deu'
+                                        )
+                                    );
+
+                // getting last row number (the one we already filled and setting it to bold
+                $sheet->row($sheet->getHighestRow(), function ($row) {
+                    $row->setFontWeight('bold');
+                    $row->setAlignment('center');
+                    $row->setBorder('thin', 'thin', 'thin', 'thin');
+                });
+
+                // putting users data as next rows
+                foreach ($allSales as $data) {
+                    $payment = DB::table('payment')->select(DB::raw('sum(amount) as totalAmount'))->where('invoice_id',$data->id)->first();
+                    $sheet->appendRow(
+                                    array(
+                                        $data->id,
+                                        $data->invoice_code,
+                                        $data->customerName,
+                                        $data->date,
+                                        $payment->totalAmount,
+                                        $data->due
+                                        )
+                                    );
+                    $sheet->row($sheet->getHighestRow(), function ($row) {
+                        $row->setAlignment('center');
+                        $row->setBorder('thin', 'thin', 'thin', 'thin');
+                    });
+                }
+
+                // die();
+            });
+
+        })->export('xls');
+    }
+
 }
