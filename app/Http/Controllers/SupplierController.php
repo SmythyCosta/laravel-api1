@@ -14,8 +14,6 @@ use App\LibPDF\SupplierPDF;
 //libs
 use Excel;
 
-
-
 class SupplierController extends Controller
 {
     //
