@@ -148,5 +148,23 @@ class UserController extends Controller
         return response()->json(['status'=>200,'user'=>$all]); 
     }
 
+    public function getUserData(Request $request)
+    {
+        $id = $request->input('id');
+        $find = User::find($id);
+        $data = [
+            'id' => $find->id,
+            'name' => $find->name,
+            'email' => $find->email,
+            'phone' => $find->phone,
+            'address' => $find->address,
+            'type' => $find->type,
+            'status' => $find->status,
+            'image' => base64_encode($find->image)
+        ];
+
+        return response()->json(['status'=>200,'user'=>$data]);
+    }
     
+
 }
