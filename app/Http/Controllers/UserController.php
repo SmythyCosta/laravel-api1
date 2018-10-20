@@ -194,4 +194,13 @@ class UserController extends Controller
         return response()->json(['status'=>200,'mesg'=>'User Update Success']); 
     }
 
+    public function userDelete(Request $request)
+    {
+        $id = $request->input('id');
+        $cat= User::find($id);
+        $cat->delete();
+        return response()->json(['status'=>200,'mesg'=>'User delete Success']);
+    }
+
+    
 }
