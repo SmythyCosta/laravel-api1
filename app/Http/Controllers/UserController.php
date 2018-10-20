@@ -100,4 +100,15 @@ class UserController extends Controller
    
     }
 
+    public function userExistsCheck($id,$email)
+    {
+        if($id==null){
+           $check =  User::select(DB::raw('count(id) as id'))->where('email',"{$email}")->first();
+        }else{
+             $check =  User::select(DB::raw('count(id) as id'))->whereNotIn('id',[$id])->where('email',$email)->first();
+        }
+        return $check;
+    }
+
+    
 }
