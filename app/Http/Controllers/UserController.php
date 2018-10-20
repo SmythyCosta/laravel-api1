@@ -52,4 +52,25 @@ class UserController extends Controller
         
     }
 
+	public function profileUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $user = User::find($id);;
+        $user->name = $request->input('name');
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            // Get the contents of the file
+            $contents = $file->openFile()->fread($file->getSize());
+            $user->image = $contents;
+        }
+        
+        $user->save();
+        return response()->json(['status'=>200,'mesg'=>'Profile Update Success']); 
+        
+    }
+
+
 }
