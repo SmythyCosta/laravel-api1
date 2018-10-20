@@ -312,4 +312,33 @@ class UserController extends Controller
         })->export('xls');
     }
 
+    public function getAllMenu(Request $request)
+    {
+        $all = Menu::all();
+        $menu = [];
+        foreach ($all as $key => $value) {
+
+            $submenu = Submenu::where('menu_id',$value->id)->get();
+            $sub = [];
+            for ($i=0; $i < count($submenu); $i++) { 
+                $sub[]=[
+                    'menu_id' =>$submenu[$i]->menu_id,
+                    'sub_id' =>$submenu[$i]->id,
+                    'label' =>$submenu[$i]->subMenu,
+                    'type' =>0
+                    
+                ];
+            }
+            $menu[] = [
+                'id' =>$value->id,
+                'label' =>$value->name,
+                'type' => 1,
+                'expanded' =>true,
+                'children' =>$sub,
+            ];
+        }
+
+        return response()->json(['status'=>200,'data'=>$menu]);
+    }
+
 }
