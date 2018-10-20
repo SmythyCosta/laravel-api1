@@ -165,6 +165,33 @@ class UserController extends Controller
 
         return response()->json(['status'=>200,'user'=>$data]);
     }
-    
+
+    public function userUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $email = $request->input('email');
+
+        $exists = $this->userExistsCheck($id,$email);
+        if($exists->id > 0){
+            return response()->json(['status'=>300,'mesg'=>'user already exists']);    
+        }
+        $user = User::find($id);
+        $user->name = $request->input('name');
+        $user->email = $email;
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+        if(!empty($request->input('password'))){
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->status = $request->input('status');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            // Get the contents of the file
+            $contents = $file->openFile()->fread($file->getSize());
+            $user->image = $contents;
+        }
+        $user->save();
+        return response()->json(['status'=>200,'mesg'=>'User Update Success']); 
+    }
 
 }
