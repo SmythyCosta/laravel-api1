@@ -72,5 +72,32 @@ class UserController extends Controller
         
     }
 
+    public function userCreate(Request $request)
+    {
+        $email = $request->input('email');
+        $exists = $this->userExistsCheck($id=null,$email);
+
+        if($exists->id > 0){
+            return response()->json(['status'=>300,'mesg'=>'user already exists']);    
+        }
+
+        $user = new User;
+        $user->name = $request->input('name');
+        $user->email = $email;
+        $user->phone = $request->input('phone');
+        $user->address = $request->input('address');
+        $user->password = bcrypt($request->input('password'));
+        $user->status = $request->input('status');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            // Get the contents of the file
+            $contents = $file->openFile()->fread($file->getSize());
+            $user->image = $contents;
+        }
+        $user->save();
+
+        return response()->json(['status'=>200,'mesg'=>'User created successfully']); 
+   
+    }
 
 }
