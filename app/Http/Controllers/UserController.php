@@ -31,4 +31,25 @@ class UserController extends Controller
         $this->user = $user;
     }
 
+    public function passwordUpdate(Request $request)
+    {
+        $id = $request->input('id');
+        $currentPassword = $request->input('currentPassword');
+        $confirmPassword = bcrypt(($request->input('confirmPassword')));
+        $status = '';
+        $mesg = '';
+        $user = User::find($id);
+        if (!Hash::check($currentPassword , $user->password)){
+            $status = '500';
+            $mesg = "Old password don't match";
+        }else{
+            $user->password = $confirmPassword;
+            $user->save();
+            $mesg = "password chnage successfully";
+        }
+
+        return response()->json(['status'=>$status,'mesg'=>$mesg]); 
+        
+    }
+
 }
