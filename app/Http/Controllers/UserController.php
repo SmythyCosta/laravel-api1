@@ -128,5 +128,18 @@ class UserController extends Controller
         return response()->json(compact('token'));
     }
 
+    public function getAuthUser(Request $request){
+        $user = JWTAuth::toUser($request->token);
+        $data = [ 
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'address' => $user->address,
+            'image' => base64_encode($user->image)
+        ];
+
+        return response()->json(['user' => $data,'status'=>200]);
+    }
 
 }
