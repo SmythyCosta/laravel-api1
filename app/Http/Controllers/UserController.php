@@ -110,5 +110,23 @@ class UserController extends Controller
         return $check;
     }
 
-    
+    public function login(Request $request){
+        $credentials = $request->only('email', 'password');
+        $token = null;
+        try {
+           if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json(['status'=>400,'mesg'=>'invalid email or password']);
+           }
+        } catch (JWTAuthException $e) {
+            return response()->json(['status'=>500,'mesg'=>'failed to create token']);
+        }
+        $user = JWTAuth::toUser($token);
+        if($user->status==0){
+            return response()->json(['status'=>300,'mesg'=>'Deactive Your Account']);
+        }
+
+        return response()->json(compact('token'));
+    }
+
+
 }
