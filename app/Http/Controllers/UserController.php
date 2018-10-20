@@ -142,4 +142,11 @@ class UserController extends Controller
         return response()->json(['user' => $data,'status'=>200]);
     }
 
+    public function allUser(Request $request)
+    {
+        $all = User::select('id', 'name', 'email', 'phone', 'address','type','status')->orderBy('id','DESC')->get();
+        return response()->json(['status'=>200,'user'=>$all]); 
+    }
+
+    
 }
