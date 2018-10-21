@@ -355,4 +355,39 @@ class UserController extends Controller
         return response()->json(['status'=>200,'user'=>$data,'roleData'=>$roleData]);
     }
 
+    public function addUserRole(Request $request)
+    {
+        $getMenu = $request->input('menu');
+        $subMenu = $request->input('subMenu');
+
+        $menu = [];
+        foreach ($getMenu as $key => $value) {
+            array_push($menu,$value);  
+        }
+
+        $sub = [];
+        foreach ($subMenu as $key => $value) {
+            for ($i=0; $i < count($value); $i++) { 
+                array_push($sub,$value);
+            }
+        }
+        $userId = $request->input('userId');
+        $findUser = UserRole::where('user_id',$userId)->first();
+        if(empty($findUser)){
+            $userRole = new UserRole();
+            $userRole->user_id = $userId;
+            $userRole->menu_id = implode(",",$menu);
+            $userRole->sub_menu_id = implode(",",$sub);
+            $userRole->status = 1;
+            $userRole->save();
+        }else{
+            $userRole = UserRole::find($findUser->id);
+            $userRole->menu_id = implode(",",$menu);
+            $userRole->sub_menu_id = implode(",",$sub);
+            $userRole->status = 1;
+            $userRole->save();
+        }
+        return response()->json(['status'=>200,'mesg'=>'User Role Update successful']);   
+    }
+
 }
