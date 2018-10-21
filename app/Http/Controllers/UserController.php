@@ -341,4 +341,18 @@ class UserController extends Controller
         return response()->json(['status'=>200,'data'=>$menu]);
     }
 
+    public function getUserAssingRoleData(Request $request)
+    {
+        $id = $request->input('id');
+        $find = User::find($id);
+        $roleData = UserRole::select('id','menu_id','sub_menu_id')->where('user_id',$id)->first();
+        $data = [
+            'id' => $find->id,
+            'name' => $find->name,
+            'type' => $find->type
+        ];
+
+        return response()->json(['status'=>200,'user'=>$data,'roleData'=>$roleData]);
+    }
+
 }
