@@ -22,6 +22,10 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('get-user', 'UserController@getAuthUser');
 });
 
+Route::post('user-passwordUpdate', 'UserController@passwordUpdate');
+Route::post('user-profileUpdate', 'UserController@profileUpdate');
+Route::get('all-user', 'UserController@allUser'); 
+
 
 // ====================== Category ======================
 Route::get('get-all-category','CategoryController@getAllCategory');
