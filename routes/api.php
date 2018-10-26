@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-// ====================== UserController ======================
+// ====================== User ======================
 Route::post('user-create', 'UserController@userCreate');
 Route::post('user-login', 'UserController@login');
 
@@ -33,6 +33,14 @@ Route::get('user-list-excel','UserController@downloadExcel');
 Route::post('user-assing-role-data','UserController@getUserAssingRoleData'); 
 Route::get('user-role-data','UserController@getAllMenu'); 
 Route::post('add-user-role','UserController@addUserRole');
+
+
+// ====================== Dashboard ======================
+Route::get('get-all-total-count','DashboardController@getAllTotalCount');
+Route::get('get-all-dashboard-data','DashboardController@getAllDashboardData');
+Route::get('get-chart-data','DashboardController@getChartData');
+Route::get('get-latestOrder','DashboardController@latestOrder');
+Route::get('get-latestProduct','DashboardController@latestProduct');
 
 
 // ====================== Category ======================
