@@ -16,12 +16,10 @@ use Illuminate\Http\Request;
 // ====================== User ======================
 Route::post('user-create', 'UserController@userCreate');
 Route::post('user-login', 'UserController@login');
-
 // route middleware jwt
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('get-user', 'UserController@getAuthUser');
 });
-
 Route::post('user-passwordUpdate', 'UserController@passwordUpdate');
 Route::post('user-profileUpdate', 'UserController@profileUpdate');
 Route::get('all-user', 'UserController@allUser'); 
@@ -41,6 +39,19 @@ Route::get('get-all-dashboard-data','DashboardController@getAllDashboardData');
 Route::get('get-chart-data','DashboardController@getChartData');
 Route::get('get-latestOrder','DashboardController@latestOrder');
 Route::get('get-latestProduct','DashboardController@latestProduct');
+
+
+// ====================== Customer ======================
+Route::post('customer-save','CustomerControllers@customerSave');
+Route::get('all-customer', 'CustomerControllers@allCustomer');
+Route::post('get-customer','CustomerControllers@getCustomer');
+Route::post('customer-update','CustomerControllers@update');
+Route::post('get-customer-by-discount','CustomerControllers@getCustomerByDiscount');
+Route::post('get-customer-info','CustomerControllers@getCustomerInfo');
+Route::get('customer-list-pdf','CustomerControllers@exportpdf');
+Route::get('customer-list-excel','CustomerControllers@downloadExcel');
+Route::get('all-customer-list', 'CustomerControllers@allCustomerList');
+
 
 
 // ====================== Category ======================
