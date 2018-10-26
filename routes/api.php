@@ -25,6 +25,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 Route::post('user-passwordUpdate', 'UserController@passwordUpdate');
 Route::post('user-profileUpdate', 'UserController@profileUpdate');
 Route::get('all-user', 'UserController@allUser'); 
+Route::post('get-user-data', 'UserController@getUserData'); 
+Route::post('user-update', 'UserController@userUpdate');
+Route::post('user-delete', 'UserController@userDelete');
+Route::get('user-list-pdf','UserController@exportpdf');
+Route::get('user-list-excel','UserController@downloadExcel'); 
+Route::post('user-assing-role-data','UserController@getUserAssingRoleData'); 
+Route::get('user-role-data','UserController@getAllMenu'); 
+Route::post('add-user-role','UserController@addUserRole');
 
 
 // ====================== Category ======================
