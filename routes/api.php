@@ -121,5 +121,15 @@ Route::get('sales-history-list-pdf','SalesController@exportpdf');
 Route::get('sales-history-list-excel','SalesController@downloadExcel'); 
 
 
+// ====================== Order ======================
+Route::get('get-all-product-by-order', 'OrderController@getAllProductByOrder');
+Route::post('create-new-order', 'OrderController@createNewOrder');
+Route::post('get-all-order', 'OrderController@getAllOrder');
+Route::post('get-order-invoice-details', 'OrderController@getInvoiceDetails');
+Route::post('order-invoice-update', 'OrderController@invoiceUpdate');
+Route::get('order-history-list-pdf','OrderController@exportpdf');
+Route::get('order-history-list-excel','OrderController@downloadExcel'); 
+
+
 // ====================== Passport ======================
 Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
