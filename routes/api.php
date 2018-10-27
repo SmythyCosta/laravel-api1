@@ -138,5 +138,17 @@ Route::get('get-all-menu', 'SettingController@getMenu');
 Route::post('check-user-permission', 'SettingController@checkPermission');
 
 
+// ====================== Report ======================
+Route::post('get-sales-report-data', 'ReportController@getSalesReportData');
+Route::get('sales-report-excel', 'ReportController@salesReportDownloadExcel');
+Route::get('sales-report-pdf', 'ReportController@salesReportExportPdf');
+Route::post('get-purchase-report-data', 'ReportController@getPurchaseReportData');
+Route::get('purchase-report-excel', 'ReportController@purchaseReportDownloadExcel');
+Route::get('purchase-report-pdf', 'ReportController@purchaseReportExportPdf');
+Route::post('get-order-report-data', 'ReportController@getOrderReportData');
+Route::get('order-report-excel', 'ReportController@orderReportDownloadExcel');
+Route::get('order-report-pdf', 'ReportController@orderReportExportPdf');
+
+
 // ====================== Passport ======================
 Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
