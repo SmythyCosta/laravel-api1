@@ -88,6 +88,18 @@ Route::get('supplier-list-pdf','SupplierController@exportpdf');
 Route::get('supplier-list-excel','SupplierController@downloadExcel'); 
 
 
+// ====================== Purchase ======================
+Route::get('get-all-purchasesProduct', 'PurchaseController@getAllPurchasesProduct'); 
+Route::get('get-all-supplier-by-purchases', 'PurchaseController@getAllSupplier'); 
+Route::post('get-productForPurchases', 'PurchaseController@getProductForPurchases'); 
+Route::post('create-new-purchase', 'PurchaseController@createNewPurchase'); 
+Route::get('get-all-purchases', 'PurchaseController@getAllPurchases'); 
+Route::post('get-purchases-details', 'PurchaseController@getPurchasesDetails'); 
+Route::post('get-purchases-invoice-details', 'PurchaseController@purchasesInvoiceDetails');
+Route::post('purchases-payment-update', 'PurchaseController@purchasesPaymentUpdate');
+Route::get('purchases-history-list-pdf','PurchaseController@exportpdf');
+Route::get('purchases-history-list-excel','PurchaseController@downloadExcel'); 
+
 
 // ====================== DamagedProduct ======================
 Route::post('damaged-product-save','DamagedProductController@productSave');
