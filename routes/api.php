@@ -131,5 +131,12 @@ Route::get('order-history-list-pdf','OrderController@exportpdf');
 Route::get('order-history-list-excel','OrderController@downloadExcel'); 
 
 
+// ====================== Setting ======================
+Route::get('get-setting-data', 'SettingController@getSetting');
+Route::post('setting-data-update', 'SettingController@settingUpdate');
+Route::get('get-all-menu', 'SettingController@getMenu');
+Route::post('check-user-permission', 'SettingController@checkPermission');
+
+
 // ====================== Passport ======================
 Route::post('oauth/token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
