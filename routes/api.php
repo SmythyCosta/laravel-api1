@@ -78,6 +78,16 @@ Route::get('product-list-pdf','ProductController@exportpdf');
 Route::get('product-list-excel','ProductController@downloadExcel');
 
 
+// ====================== Supplier ======================
+Route::get('get-all-supplier', 'SupplierController@getAllSupplier'); 
+Route::post('supplier-save', 'SupplierController@supplierSave'); 
+Route::post('get-supplier', 'SupplierController@getSupplier'); 
+Route::post('supplier-update', 'SupplierController@supplierUpdate'); 
+Route::post('get-supplier-info', 'SupplierController@getSupplierInfo'); 
+Route::get('supplier-list-pdf','SupplierController@exportpdf');
+Route::get('supplier-list-excel','SupplierController@downloadExcel'); 
+
+
 
 // ====================== DamagedProduct ======================
 Route::post('damaged-product-save','DamagedProductController@productSave');
