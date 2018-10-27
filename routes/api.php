@@ -101,13 +101,14 @@ Route::get('purchases-history-list-pdf','PurchaseController@exportpdf');
 Route::get('purchases-history-list-excel','PurchaseController@downloadExcel'); 
 
 
-// ====================== DamagedProduct ======================
+// ====================== Damaged ======================
 Route::post('damaged-product-save','DamagedProductController@productSave');
 Route::get('all-damaged-product','DamagedProductController@allDamagedProduct');
 Route::post('get-all-product-by-damaged','DamagedProductController@allProduct');
 Route::post('get-damaged-product','DamagedProductController@getDamagedProduct');
 Route::post('damaged-product-update','DamagedProductController@productUpdate');
 Route::get('damaged-product-list-pdf','DamagedProductController@exportpdf');
+Route::get('damaged-product-list-excel','DamagedProductController@downloadExcel');
 // ====================== end DamagedProduct ======================
 
 
