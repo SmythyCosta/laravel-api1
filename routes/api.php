@@ -109,7 +109,16 @@ Route::post('get-damaged-product','DamagedProductController@getDamagedProduct');
 Route::post('damaged-product-update','DamagedProductController@productUpdate');
 Route::get('damaged-product-list-pdf','DamagedProductController@exportpdf');
 Route::get('damaged-product-list-excel','DamagedProductController@downloadExcel');
-// ====================== end DamagedProduct ======================
+
+
+// ====================== Sales ======================
+Route::post('get-categoryByProduct','SalesController@getCategoryByProduct');
+Route::post('create-new-sales', 'SalesController@createNewSales');
+Route::get('get-all-sales', 'SalesController@getAllSales');
+Route::post('get-invoice-details', 'SalesController@getInvoiceDetails');
+Route::post('sales-take-payment', 'SalesController@salesTakePayment');
+Route::get('sales-history-list-pdf','SalesController@exportpdf');
+Route::get('sales-history-list-excel','SalesController@downloadExcel'); 
 
 
 // ====================== Passport ======================
