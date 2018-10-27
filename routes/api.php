@@ -53,7 +53,6 @@ Route::get('customer-list-excel','CustomerControllers@downloadExcel');
 Route::get('all-customer-list', 'CustomerControllers@allCustomerList');
 
 
-
 // ====================== Category ======================
 Route::get('get-all-category','CategoryController@getAllCategory');
 Route::post('category-save','CategoryController@categorySave');
@@ -76,6 +75,8 @@ Route::post('get-product-details','ProductController@getProduct');
 Route::post('product-update','ProductController@productUpdate');
 Route::post('get-product-info','ProductController@getProductInfo');
 Route::get('product-list-pdf','ProductController@exportpdf');
+Route::get('product-list-excel','ProductController@downloadExcel');
+
 
 
 // ====================== DamagedProduct ======================
